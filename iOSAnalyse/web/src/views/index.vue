@@ -11,8 +11,9 @@
       <el-col :span="16" style="text-align: right">
         <div class="handlers" style="width: 240px; float: right">
           <el-container>
-<!--            <el-input size="mini" placeholder="请输入版本号过滤～" />-->
-<!--            <el-divider direction="vertical"/>-->
+            <el-button size="mini" type="success" @click="adPublish">
+              上传发布记录</el-button>
+
             <el-button size="mini" type="primary" @click="compare">
               开始对比</el-button>
           </el-container>
@@ -102,6 +103,9 @@ name: "index",
     },
     goHomePage() {
       this.$router.push({path: '/'})
+    },
+    addPublish() {
+      this.$message.success('正在开发中～')
     }
   }
 }

@@ -1,59 +1,85 @@
 <template>
-  <div
-    class="echart"
-    id="mychart"
-    :style="{ float: 'left', width: '100%', height: '400px' }"
-  ></div>
+  <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+  <div id="chartLine" class="line-wrap"></div>
 </template>
 
 <script>
-import * as echarts from "echarts";
+import * as echarts from 'echarts';
+
+require('echarts/theme/shine');//引入主题
 
 export default {
-  props: ['module_name'],
+  props: {
+    modules: {      //父组件传过来的值
+      type: Array
+    }
+  },
   data() {
     return {
-      name: "张雪",
-      xData: ["2020-02", "2020-03", "2020-04", "2020-05"], //横坐标数据
-      yData: [30, 132, 80, 134] //纵坐标数据，与横坐标对应
-    };
+      chartLine: null,
+      xAxis: [],
+      yAxis: []
+    }
   },
   mounted() {
-    this.initEcharts();
+    this.$nextTick(() => {
+      this.drawLineChart();
+    })
   },
   methods: {
-    initEcharts() {
-      const option = {
-        title: {
-          text: "ECharts 入门示例"
+    drawLineChart() {
+      this.chartLine = echarts.init(this.$el, 'shine');
+      this.modules.forEach(module => {
+          this.xAxis.unshift(module.publish.lver)
+          this.yAxis.unshift(module.module_size)
+        })
+
+      let option = {
+        tooltip: {
+          trigger: 'axis',
+          show: false
         },
-        tooltip: {},
         legend: {
-          data: ["销量"]
+          data: ['模块大小(byte)']
         },
-        xAxis: {
-          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-        },
-        yAxis: {},
+        calculable: true,
+        xAxis: [
+          {
+            type: 'category',
+            boundaryGap: false,
+            axisTick: {
+              show: true
+            },
+            data: this.xAxis
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            axisTick: {
+              show: true
+            },
+          }
+        ],
         series: [
           {
-            name: "销量",
-            type: "bar", //类型为柱状图
-            data: [5, 20, 36, 10, 10, 20]
+            name: '模块大小(byte)',
+            type: 'line',
+            stack: '总量',
+            data: this.yAxis
           }
         ]
       };
-      const myChart = echarts.init(document.getElementById("mychart"));// 图标初始化
-      myChart.setOption(option);// 渲染页面
-      //随着屏幕大小调节图表
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+      // 使用刚指定的配置项和数据显示图表
+      this.chartLine.setOption(option);
     }
   }
-};
+}
 </script>
 
 <style scoped>
-
+.line-wrap {
+  width: 100%;
+  height: 400px;
+}
 </style>

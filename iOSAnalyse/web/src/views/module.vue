@@ -59,6 +59,7 @@
       :visible.sync="dialogVisible"
       width="60%"
       center>
+      <module-chart :modules="modules"></module-chart>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible=false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible=false">确 定</el-button>

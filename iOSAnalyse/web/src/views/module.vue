@@ -103,6 +103,9 @@ name: "index",
     chart_title: '走势图'
     }
   },
+  watch: {
+
+  },
   created() {
     this.queryParams.module_name = this.$route.params.module_name
     this.getModuleOptions()
@@ -113,6 +116,7 @@ name: "index",
       return value > 0 ? 'danger' : 'success'
     },
     getList() {
+      console.log(this.queryParams)
       listModule(this.queryParams).then(res => {
         this.modules = res.data
       })

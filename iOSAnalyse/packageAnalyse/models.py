@@ -7,7 +7,6 @@ class Publish(models.Model):
     version = models.CharField(default='', max_length=50)
     build_no = models.CharField(default='', max_length=50)
     branch = models.CharField(default='', max_length=255)
-    result = models.FileField(upload_to='media/files', blank=True, null=True)
     status = models.IntegerField(default=1)
     create_time = models.DateTimeField(auto_created=True, auto_now=True)
 

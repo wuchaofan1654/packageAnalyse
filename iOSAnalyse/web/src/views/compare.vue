@@ -2,11 +2,7 @@
   <el-card class="box-card" body-style="height: 100vh">
     <div slot="header" class="clearfix" style="height: 25px">
       <el-col :span="8">
-        <el-button type="text" @click="goHomePage">
-          <span style="font-size: 16px">首页</span>
-        </el-button>
-        <el-divider direction="vertical" />
-        <span style="font-size: 16px">对比结果</span>
+        <header-left :title="title" />
       </el-col>
       <el-col :span="16" style="text-align: right">
       </el-col>
@@ -46,10 +42,16 @@
 
 <script>
 import {comparePublish} from "@/api/publish"
+import HeaderLeft from "./HeaderLeft";
+
 export default {
+  components: {
+    HeaderLeft
+  },
 name: "index",
   data() {
   return {
+    title: '对比结果',
     versionOptions: [],
     modules: [],
     loading: false
@@ -86,9 +88,6 @@ name: "index",
     getJumpUrl(module_name) {
       return this.$router.push({path: 'module', query: {module_name: module_name}})
     },
-    goHomePage() {
-      this.$router.push({path: '/'})
-    }
   }
 }
 </script>

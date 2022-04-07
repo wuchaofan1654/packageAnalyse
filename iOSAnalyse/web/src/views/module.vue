@@ -2,11 +2,7 @@
   <el-card class="box-card" body-style="height: 100vh">
     <div slot="header" class="clearfix" style="height: 25px">
       <el-col :span="8">
-        <el-button type="text" @click="goHomePage">
-          <span style="font-size: 16px">首页</span>
-        </el-button>
-        <el-divider direction="vertical" />
-        <span style="font-size: 16px">模块各版本大小</span>
+        <header-left :title="title" />
       </el-col>
       <el-col :span="16" style="text-align: right">
         <el-select
@@ -84,14 +80,17 @@
 <script>
 import {listModule, get_module_options} from "@/api/module"
 import moduleChart from "./moduleChart";
+import HeaderLeft from "./HeaderLeft";
 
 export default {
   components: {
-    moduleChart
+    moduleChart,
+    HeaderLeft
   },
 name: "index",
   data() {
   return {
+    title: '模块各版本大小',
     total: 0,
     moduleNameOptions: [],
     queryParams: {
@@ -101,7 +100,7 @@ name: "index",
     },
     modules: [],
     dialogVisible: false,
-    title: '走势图'
+    chart_title: '走势图'
     }
   },
   created() {
@@ -139,13 +138,10 @@ name: "index",
     },
     showExtend() {
       this.dialogVisible = true
-      this.title = this.queryParams.module_name + '走势图'
+      this.chart_title = this.queryParams.module_name + '走势图'
     },
     goBack() {
       this.$router.go(-1)
-    },
-    goHomePage() {
-      this.$router.push({path: '/'})
     },
   }
 }

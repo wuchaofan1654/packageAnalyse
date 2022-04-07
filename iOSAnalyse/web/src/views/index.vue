@@ -2,18 +2,13 @@
   <el-card class="box-card" body-style="height: 100vh">
     <div slot="header" class="clearfix" style="height: 25px">
       <el-col :span="8">
-        <el-button type="text" @click="goHomePage">
-          <span style="font-size: 16px">首页</span>
-        </el-button>
-        <el-divider direction="vertical" />
-        <span style="font-size: 16px">iOS发布记录</span>
+        <header-left :title="title" />
       </el-col>
       <el-col :span="16" style="text-align: right">
         <div class="handlers" style="width: 240px; float: right">
           <el-container>
             <el-button size="mini" type="success" @click="adPublish">
               上传发布记录</el-button>
-
             <el-button size="mini" type="primary" @click="compare">
               开始对比</el-button>
           </el-container>
@@ -53,10 +48,14 @@
 
 <script>
 import {listPublish} from "@/api/publish"
+import HeaderLeft from "./HeaderLeft";
+
 export default {
 name: "index",
+  components: {HeaderLeft},
   data() {
   return {
+    title: 'iOS发布记录',
     versionOptions: [],
     selectList: [],
     publishes: [],
@@ -105,9 +104,6 @@ name: "index",
     },
     goBack() {
       this.$router.go(-1)
-    },
-    goHomePage() {
-      this.$router.push({path: '/'})
     },
     addPublish() {
       this.$message.success('正在开发中～')

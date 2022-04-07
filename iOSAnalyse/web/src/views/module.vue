@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column label="版本号" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <div v-for="publish in scope.row.publish}">
+          <div v-for="publish in scope.row.publish">
             <el-tag size="mini" type="warning">{{publish.version}}</el-tag>
           </div>
         </template>
@@ -56,7 +56,7 @@
       </el-table-column>
       <el-table-column label="build No." align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <div v-for="publish in scope.row.publish}">
+          <div v-for="publish in scope.row.publish">
             <el-tag size="mini" type="warning">{{publish.build_no}}</el-tag>
           </div>
         </template>

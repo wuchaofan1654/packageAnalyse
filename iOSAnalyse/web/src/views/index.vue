@@ -59,7 +59,7 @@
 <script>
 import {listPublish} from "@/api/publish"
 import HeaderLeft from "./HeaderLeft";
-import Pagination from "../components/Pagination/index"
+import Pagination from "@/src/components/Pagination/index"
 
 
 export default {

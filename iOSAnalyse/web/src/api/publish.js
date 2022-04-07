@@ -26,3 +26,12 @@ export function listBuildNo(query) {
     params: query
   });
 }
+
+// 通过json文件添加发布记录数据
+export function addPublishByFile(query) {
+  return request({
+    url: "/ios/publish/byJson/",
+    method: "post",
+    params: query
+  });
+}

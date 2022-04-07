@@ -72,15 +72,7 @@
           <el-input v-model="form.branch"></el-input>
         </el-form-item>
         <el-form-item label="包大小json文件">
-          <el-upload
-            class="upload-demo"
-            drag
-            name="result"
-            action="http://jsonplaceholder.typicode.com/posts/">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip">只能上传标准json文件</div>
-          </el-upload>
+          <input class="file" name="result" type="file" @change="appendFileToForm"/>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -92,7 +84,7 @@
 </template>
 
 <script>
-import {listPublish} from "@/api/publish"
+import {listPublish, addPublishByFile} from "@/api/publish"
 import HeaderLeft from "./HeaderLeft";
 
 
@@ -176,8 +168,19 @@ export default {
       this.queryParams.pageNum = value
       this.publishes = this.getList()
     },
+    appendFileToForm(e) {
+      this.form.result = e.target.files[0]
+    },
     submitPublishForm() {
       this.publishDialogVisible = false
+      console.log(this.form)
+      addPublishByFile(this.form).then(res => {
+        if(res.code === 200) {
+          this.$message.success('发布成功')
+        }else {
+          this.$message.success('添加失败')
+        }
+      })
     }
   }
 }

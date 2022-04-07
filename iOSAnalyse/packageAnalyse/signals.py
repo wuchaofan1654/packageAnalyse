@@ -11,17 +11,15 @@ from packageAnalyse.models import Publish
 
 @receiver(pre_init, sender=Publish)
 def publish_pre_init_callback(sender, **kwargs):
-    file_obj = sender.result
-    print(file_obj.field.__dict__)
-    print(f"publish_pre_init_callback: {sender.result}")
+    print(f"publish_pre_init_callback: {sender}")
 
 
 @receiver(pre_save, sender=Publish)
 def publish_pre_save_callback(sender, **kwargs):
-    print(f"publish_pre_save_callback: {sender.result}")
+    print(f"publish_pre_save_callback: {sender}")
 
 
 @receiver(post_save, sender=Publish)
 def publish_saved_callback(sender, **kwargs):
-    print(f"publish_saved_callback: {sender.result}")
+    print(f"publish_saved_callback: {sender}")
 

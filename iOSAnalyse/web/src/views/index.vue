@@ -56,6 +56,38 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentPageChange"
     />
+    <el-dialog
+      title="手动上传发布记录"
+      :visible.sync="publishDialogVisible"
+      width="60%"
+      center>
+      <el-form ref="form" :model="form" label-width="150px">
+        <el-form-item label="App版本">
+          <el-input v-model="form.version"></el-input>
+        </el-form-item>
+        <el-form-item label="jenkins构建编号">
+          <el-input v-model="form.build_no"></el-input>
+        </el-form-item>
+        <el-form-item label="版本分支">
+          <el-input v-model="form.branch"></el-input>
+        </el-form-item>
+        <el-form-item label="包大小json文件">
+          <el-upload
+            class="upload-demo"
+            drag
+            name="result"
+            action="http://jsonplaceholder.typicode.com/posts/">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__tip" slot="tip">只能上传标准json文件</div>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitPublishForm">提 交</el-button>
+      </span>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -75,10 +107,17 @@ export default {
       publishes: [],
       loading: false,
       total: 0,
+      publishDialogVisible: false,
       pageSizes: [10, 20 ,50, 100],
       queryParams: {
         pageNum: 1,
         pageSize: 20
+      },
+      form: {
+        version: '',
+        build_no: '',
+        branch: '',
+        result: ''
       }
     }
   },
@@ -126,6 +165,7 @@ export default {
       this.$router.go(-1)
     },
     addPublish() {
+      this.publishDialogVisible = true
       this.$message.success('正在开发中～')
     },
     handleSizeChange(value) {
@@ -136,6 +176,9 @@ export default {
       this.queryParams.pageNum = value
       this.publishes = this.getList()
     },
+    submitPublishForm() {
+      this.publishDialogVisible = false
+    }
   }
 }
 </script>

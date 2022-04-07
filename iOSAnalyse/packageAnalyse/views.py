@@ -15,7 +15,7 @@ class PublishModelViewSet(CustomModelViewSet):
     serializer_class = PublishSerializer
     update_serializer_class = PublishSerializer
     filter_class = PublishFilter
-    ordering = '-create_datetime'  # 默认排序
+    ordering = '-create_time'  # 默认排序
 
     @classmethod
     def compare_by_pk(cls, request, *args, **kwargs):
@@ -57,7 +57,7 @@ class ModuleModelViewSet(CustomModelViewSet):
     queryset = Module.objects.all()
     serializer_class = ModuleSerializer
     filter_class = ModuleFilter
-    ordering = '-create_datetime'  # 默认排序
+    ordering = '-create_time'  # 默认排序
 
     @classmethod
     def get_module_options(cls, request):

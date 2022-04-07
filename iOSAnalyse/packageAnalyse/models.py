@@ -8,7 +8,7 @@ class Publish(models.Model):
     build_no = models.CharField(default='', max_length=50)
     branch = models.CharField(default='', max_length=255)
     status = models.IntegerField(default=1)
-    file = models.ForeignKey(to='UploadFile', on_delete=models.Case, default=1)
+    file = models.ForeignKey(to='UploadFile', on_delete=models.Case, default=0)
     create_time = models.DateTimeField(auto_created=True, auto_now=True)
 
     class Meta:

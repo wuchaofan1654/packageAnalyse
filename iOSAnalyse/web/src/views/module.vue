@@ -88,11 +88,13 @@
 import {listModule, get_module_options} from "@/api/module"
 import moduleChart from "./moduleChart";
 import HeaderLeft from "./HeaderLeft";
+import Pagination from "../components/Pagination/index"
 
 export default {
   components: {
     moduleChart,
-    HeaderLeft
+    HeaderLeft,
+    Pagination
   },
 name: "index",
   data() {

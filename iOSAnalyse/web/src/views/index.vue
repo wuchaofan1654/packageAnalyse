@@ -59,10 +59,12 @@
 <script>
 import {listPublish} from "@/api/publish"
 import HeaderLeft from "./HeaderLeft";
+import Pagination from "../components/Pagination/index"
+
 
 export default {
   name: "index",
-  components: {HeaderLeft},
+  components: {HeaderLeft, Pagination},
   data() {
     return {
       title: 'iOS发布记录',

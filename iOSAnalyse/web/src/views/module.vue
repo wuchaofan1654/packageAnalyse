@@ -63,7 +63,7 @@
       </el-table-column>
       <el-table-column label="创建时间" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span size="mini">{{scope.row.create_time}}</span>
+          <span size="mini" style="color: #606266">{{scope.row.create_time}}</span>
         </template>
       </el-table-column>
     </el-table>

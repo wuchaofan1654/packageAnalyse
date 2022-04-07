@@ -54,7 +54,7 @@
       </el-table-column>
       <el-table-column label="build No." align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-tag size="mini" type="success">{{scope.row.publish[0].build_no}}</el-tag>
+          <el-tag size="mini" type="success">{{scope.row.publish}}</el-tag>
         </template>
       </el-table-column>
     </el-table>

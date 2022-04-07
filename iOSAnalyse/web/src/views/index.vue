@@ -73,7 +73,8 @@ name: "index",
       this.seleted = []
       listPublish().then(res => {
         this.loading = false
-        this.publishes = res.data
+        this.publishes = res.data.results
+        this.total = res.data.count
       })
     },
     compare() {

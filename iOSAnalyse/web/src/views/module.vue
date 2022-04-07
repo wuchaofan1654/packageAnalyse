@@ -95,7 +95,7 @@ name: "index",
     moduleNameOptions: [],
     queryParams: {
       pageNum: 1,
-      pageSize: 100,
+      pageSize: 20,
       module_name: undefined,
     },
     modules: [],
@@ -118,7 +118,8 @@ name: "index",
     getList() {
       console.log(this.queryParams)
       listModule(this.queryParams).then(res => {
-        this.modules = res.data
+        this.modules = res.data.results
+        this.total = res.data.count
       })
     },
     dataFormat(data) {

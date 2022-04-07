@@ -107,6 +107,7 @@ name: "index",
     getList() {
       listModule(this.queryParams).then(res => {
         this.modules = res.data
+        console.log(this.modules)
       })
     },
     dataFormat(data) {

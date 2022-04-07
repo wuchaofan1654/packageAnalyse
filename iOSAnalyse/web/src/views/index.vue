@@ -42,6 +42,11 @@
           <span size="mini">{{scope.row.branch}}</span>
         </template>
       </el-table-column>
+      <el-table-column label="创建时间" align="center" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <span size="mini">{{scope.row.create_time}}</span>
+        </template>
+      </el-table-column>
     </el-table>
   </el-card>
 </template>

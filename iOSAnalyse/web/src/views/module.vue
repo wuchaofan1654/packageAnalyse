@@ -74,6 +74,13 @@
         <el-button type="primary" @click="dialogVisible=false">确 定</el-button>
       </span>
     </el-dialog>
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
   </el-card>
 </template>
 

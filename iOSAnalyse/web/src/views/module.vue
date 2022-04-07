@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column label="版本号" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-tag size="mini" type="warning">{{scope.row.publish[0].version}}</el-tag>
+          <el-tag size="mini" type="warning">{{scope.row.publish}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="组件大小" align="center" sortable :show-overflow-tooltip="true">

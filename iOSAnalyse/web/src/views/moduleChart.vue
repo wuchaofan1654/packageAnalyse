@@ -30,7 +30,7 @@ export default {
     drawLineChart() {
       this.chartLine = echarts.init(this.$el, 'shine');
       this.modules.forEach(module => {
-          this.xAxis.unshift(module.publish.lver)
+          this.xAxis.unshift(module.publish[0].version)
           this.yAxis.unshift(module.module_size)
         })
 

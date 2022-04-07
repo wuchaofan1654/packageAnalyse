@@ -74,7 +74,6 @@
 
 <script>
 import {listModule, get_module_options} from "@/api/module"
-import * as echarts from "echarts";
 import moduleChart from "./moduleChart";
 
 export default {
@@ -92,10 +91,6 @@ name: "index",
       module_name: undefined,
     },
     modules: [],
-    lineChartData: {
-      xAxisValues: [],
-      values: [],
-    },
     dialogVisible: false,
     title: '走势图'
     }
@@ -104,9 +99,6 @@ name: "index",
     this.queryParams.module_name = this.$route.params.module_name
     this.getModuleOptions()
     this.getList()
-  },
-  mounted() {
-    this.initEcharts();
   },
   methods: {
     getStatus(value) {

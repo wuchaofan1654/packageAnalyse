@@ -7,7 +7,7 @@
       <el-col :span="16" style="text-align: right">
         <div class="handlers" style="width: 240px; float: right">
           <el-container>
-            <el-button size="mini" type="success" @click="adPublish">
+            <el-button size="mini" type="success" @click="addPublish">
               上传发布记录
             </el-button>
             <el-button size="mini" type="primary" @click="compare">
@@ -45,13 +45,16 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <pagination
-      v-show="total>0"
+    <el-pagination
+      style="text-align: center; margin: 20px"
       :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
+      :page-size="queryParams.pageSize"
+      :current-page="queryParams.pageNum"
+      :page-sizes="pageSizes"
+      :background="true"
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentPageChange"
     />
   </el-card>
 </template>
@@ -59,12 +62,11 @@
 <script>
 import {listPublish} from "@/api/publish"
 import HeaderLeft from "./HeaderLeft";
-import Pagination from "@/components/Pagination/index"
 
 
 export default {
   name: "index",
-  components: {HeaderLeft, Pagination},
+  components: {HeaderLeft},
   data() {
     return {
       title: 'iOS发布记录',
@@ -73,6 +75,7 @@ export default {
       publishes: [],
       loading: false,
       total: 0,
+      pageSizes: [10, 20 ,50, 100],
       queryParams: {
         pageNum: 1,
         pageSize: 20
@@ -124,7 +127,15 @@ export default {
     },
     addPublish() {
       this.$message.success('正在开发中～')
-    }
+    },
+    handleSizeChange(value) {
+      this.queryParams.pageSize = value
+      this.publishes = this.getList()
+    },
+    handleCurrentPageChange(value) {
+      this.queryParams.pageNum = value
+      this.publishes = this.getList()
+    },
   }
 }
 </script>

@@ -74,12 +74,16 @@
         <el-button type="primary" @click="dialogVisible=false">确 定</el-button>
       </span>
     </el-dialog>
-    <pagination
-      v-show="total>0"
+     <el-pagination
+      style="text-align: center; margin: 20px"
       :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
+      :page-size="queryParams.pageSize"
+      :current-page="queryParams.pageNum"
+      :page-sizes="pageSizes"
+      :background="true"
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentPageChange"
     />
   </el-card>
 </template>
@@ -88,13 +92,11 @@
 import {listModule, get_module_options} from "@/api/module"
 import moduleChart from "./moduleChart";
 import HeaderLeft from "./HeaderLeft";
-import Pagination from "@/components/Pagination/index"
 
 export default {
   components: {
     moduleChart,
     HeaderLeft,
-    Pagination
   },
 name: "index",
   data() {
@@ -102,6 +104,7 @@ name: "index",
     title: '模块各版本大小',
     total: 0,
     moduleNameOptions: [],
+    pageSizes: [10, 20, 50, 100],
     queryParams: {
       pageNum: 1,
       pageSize: 20,
@@ -156,6 +159,14 @@ name: "index",
     },
     goBack() {
       this.$router.go(-1)
+    },
+    handleSizeChange(value) {
+      this.queryParams.pageSize = value
+      this.publishes = this.getList()
+    },
+    handleCurrentPageChange(value) {
+      this.queryParams.pageNum = value
+      this.publishes = this.getList()
     },
   }
 }

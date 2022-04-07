@@ -109,6 +109,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'packageAnalyse.common.pagination.Pagination',
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'EXCEPTION_HANDLER': 'frames.utils.exceptions.op_exception_handler',
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

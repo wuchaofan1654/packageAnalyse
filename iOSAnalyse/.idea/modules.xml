@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/iOSAnalyse.iml" filepath="$PROJECT_DIR$/.idea/iOSAnalyse.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../tester/.idea/tester.iml" filepath="$PROJECT_DIR$/../tester/.idea/tester.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../tester/.idea/tester.iml" filepath="$PROJECT_DIR$/../../../tester/.idea/tester.iml" />
     </modules>
   </component>
 </project>

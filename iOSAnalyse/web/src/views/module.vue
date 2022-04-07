@@ -43,8 +43,12 @@
       </el-table-column>
       <el-table-column label="组件大小" align="center" sortable :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.old > 1024 * 1024" size="mini" type="danger">{{dataFormat(scope.row.module_size)}}</el-tag>
-          <el-tag v-else-if="scope.row.old > 0.2 * 1024" size="mini" type="warning">{{dataFormat(scope.row.module_size)}}</el-tag>
+          <el-tag v-if="scope.row.module_size > 1024 * 1024" size="mini" type="danger">
+            {{dataFormat(scope.row.module_size)}}
+            </el-tag>
+          <el-tag v-else-if="scope.row.module_size > 0.2 * 1024" size="mini" type="warning">
+            {{dataFormat(scope.row.module_size)}}
+           </el-tag>
           <el-tag v-else size="mini">{{dataFormat(scope.row.module_size)}}</el-tag>
         </template>
       </el-table-column>
@@ -111,7 +115,6 @@ name: "index",
     getList() {
       listModule(this.queryParams).then(res => {
         this.modules = res.data
-        this.total = res.data.length
       })
     },
     dataFormat(data) {
@@ -136,14 +139,6 @@ name: "index",
     showExtend() {
       this.dialogVisible = true
       this.title = this.queryParams.module_name + '走势图'
-      let xAxisValues = []
-      let values = []
-      this.modules.forEach(module => {
-        xAxisValues.unshift(module.publish.lver)
-        values.unshift(module.module_size)
-      })
-      this.lineChartData.xAxisValues = xAxisValues
-      this.lineChartData.values = values
     },
     goBack() {
       this.$router.go(-1)
@@ -151,34 +146,6 @@ name: "index",
     goHomePage() {
       this.$router.push({path: '/'})
     },
-    initEcharts() {
-      const option = {
-        title: {
-          text: "ECharts 入门示例"
-        },
-        tooltip: {},
-        legend: {
-          data: ["销量"]
-        },
-        xAxis: {
-          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-        },
-        yAxis: {},
-        series: [
-          {
-            name: "销量",
-            type: "bar", //类型为柱状图
-            data: [5, 20, 36, 10, 10, 20]
-          }
-        ]
-      };
-      const myChart = echarts.init(document.getElementById("mychart"));// 图标初始化
-      myChart.setOption(option);// 渲染页面
-      //随着屏幕大小调节图表
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
-    }
   }
 }
 </script>

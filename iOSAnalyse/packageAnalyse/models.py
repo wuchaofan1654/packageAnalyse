@@ -9,7 +9,7 @@ class Publish(models.Model):
     branch = models.CharField(default='', max_length=255)
     result = models.TextField(default='')
     status = models.IntegerField(default=1)
-    create_time = models.DateTimeField(auto_created=True, auto_now=True, auto_now_add=True)
+    create_time = models.DateTimeField(auto_created=True, auto_now=True)
 
     class Meta:
         verbose_name = '版本发布记录表'
@@ -26,7 +26,7 @@ class Module(models.Model):
     module_size = models.IntegerField(default=0)
     module_type = models.IntegerField(default=0)
     status = models.IntegerField(default=1)
-    create_time = models.DateTimeField(auto_created=True, auto_now=True, auto_now_add=True)
+    create_time = models.DateTimeField(auto_created=True, auto_now=True)
 
     class Meta:
         verbose_name = '模块大小记录表'

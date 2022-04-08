@@ -18,10 +18,13 @@ from django.contrib import admin
 from django.urls import re_path, include
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.static import serve
+from iOSAnalyse import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     re_path(r'^ios/', include('packageAnalyse.urls')),
+    re_path(r'media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

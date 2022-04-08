@@ -1,10 +1,11 @@
 
-from packageAnalyse.common.response import SuccessResponse
+from packageAnalyse.common.response import SuccessResponse, ErrorResponse
 from packageAnalyse.common.utils import deep_update
 from packageAnalyse.common.viewsets import CustomModelViewSet
 from packageAnalyse.filters import PublishFilter, ModuleFilter
 from packageAnalyse.models import Publish, Module
 from packageAnalyse.serializers import PublishSerializer, ModuleSerializer
+from packageAnalyse.signals import sync_modules_by_publish
 
 
 class PublishModelViewSet(CustomModelViewSet):
@@ -24,13 +25,24 @@ class PublishModelViewSet(CustomModelViewSet):
         modules_1 = Module.objects.filter(publish__id=int(pk1))
         modules_2 = Module.objects.filter(publish__id=int(pk2))
 
-        final_result = {module.module_name: {"old": module.module_size} for module in modules_1}
+        final_result = {
+            module.module_name: {"old": module.module_size}
+            for module in modules_1
+        }
 
         for module in modules_2:
-            deep_update(_dict=final_result, key=module.module_name, value={"new": module.module_size})
+            deep_update(
+                _dict=final_result,
+                key=module.module_name,
+                value={"new": module.module_size}
+            )
 
         for key, value in final_result.items():
-            deep_update(_dict=final_result, key=key, value={"diff": value['new'] - value['old']})
+            deep_update(
+                _dict=final_result,
+                key=key,
+                value={"diff": value.get('new', 0) - value.get('old', 0)}
+            )
 
         final_result_sorted = {
             k: v for k, v in sorted(final_result.items(),
@@ -48,6 +60,17 @@ class PublishModelViewSet(CustomModelViewSet):
         query_sets = Publish.objects.all()
         query_sets = [{'id': query.id, 'version': query.version} for query in query_sets]
         return SuccessResponse(query_sets)
+
+    @classmethod
+    def sync_modules(cls, request, pk):
+        try:
+            publish = Publish.objects.get(pk=pk)
+            print("===========")
+            sync_modules_by_publish(publish)
+            return SuccessResponse(msg='同步成功')
+
+        except Exception as error:
+            return ErrorResponse(code=10002, msg=error)
 
 
 class ModuleModelViewSet(CustomModelViewSet):

@@ -141,18 +141,18 @@ STATIC_URL = '/static/'
 # python manage.py collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# # 设置django的静态文件目录
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "web/dist/static"),
-# ]
-#
-# if not os.path.exists(os.path.join(BASE_DIR, 'media')):
-#     os.makedirs(os.path.join(BASE_DIR, 'media'))
-#
-# # 访问上传文件的url地址前缀
-# MEDIA_URL = "/media/"
-# # 项目中存储上传文件的根目录
-# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# 设置django的静态文件目录
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "web/dist/static"),
+]
+
+if not os.path.exists(os.path.join(BASE_DIR, 'media')):
+    os.makedirs(os.path.join(BASE_DIR, 'media'))
+
+# 访问上传文件的url地址前缀
+MEDIA_URL = "/media/"
+# 项目中存储上传文件的根目录
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 """

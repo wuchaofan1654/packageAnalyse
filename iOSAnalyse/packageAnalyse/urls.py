@@ -16,7 +16,7 @@ router.register(r'module', ModuleModelViewSet)
 urlpatterns = [
     re_path('publish/compare/(?P<pk1>.*)/(?P<pk2>.*)/', PublishModelViewSet.as_view({'get': 'compare_by_pk'})),
     re_path('publish/buildOptions/', PublishModelViewSet.as_view({'get': 'get_build_options'})),
-    re_path('publish/byJson/', PublishModelViewSet.as_view({'post': 'add_by_json'})),
+    re_path('publish/sync/(?P<pk>.*)/', PublishModelViewSet.as_view({'get': 'sync_modules'})),
     re_path('module/moduleOptions/', ModuleModelViewSet.as_view({'get': 'get_module_options'})),
 ]
 urlpatterns += router.urls

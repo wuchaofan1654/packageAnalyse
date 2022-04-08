@@ -41,7 +41,7 @@
       </el-table-column>
       <el-table-column label="json file" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-link type="primary">{{ scope.row.jsonfile }}</el-link>
+          <el-button type="text" @click="downloadJsonfile(scope.row.jsonfile)">点击查看</el-button>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" :show-overflow-tooltip="true">
@@ -158,9 +158,6 @@ export default {
       }
       this.selectList = rows;
     },
-    goBack() {
-      this.$router.go(-1)
-    },
     addPublish() {
       this.publishDialogVisible = true
       this.$message.success('正在开发中～')
@@ -186,6 +183,10 @@ export default {
           this.$message.success('添加失败')
         }
       })
+    },
+    downloadJsonfile(filepath) {
+      console.log(filepath)
+      window.open(filepath)
     }
   }
 }

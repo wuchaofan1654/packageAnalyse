@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card" body-style="height: 100vh">
+  <el-card class="box-card">
     <div slot="header" class="clearfix" style="height: 25px">
       <el-col :span="8">
         <header-left :title="title" />
@@ -66,7 +66,7 @@ name: "index",
     },
     getList() {
       this.loading = true
-      comparePublish(1, 2).then(res => {
+      comparePublish(1, 20).then(res => {
 
         this.loading = false
         this.modules = res.data
@@ -93,5 +93,13 @@ name: "index",
 </script>
 
 <style scoped>
+.box-card {
+  overflow: auto;
+  max-height: 100vh;
+  padding: 5px;
+}
 
+.box-card::-webkit-scrollbar {
+  display: none;
+}
 </style>

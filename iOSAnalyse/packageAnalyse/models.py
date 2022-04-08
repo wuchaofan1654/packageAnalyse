@@ -8,7 +8,7 @@ class Publish(models.Model):
     build_no = models.CharField(default='', max_length=50)
     branch = models.CharField(default='', max_length=255)
     status = models.IntegerField(default=1)
-    jsonfile = models.FileField(upload_to='media/files', default='')
+    jsonfile = models.FileField(upload_to='files', default='')
     create_time = models.DateTimeField(auto_created=True, auto_now=True)
 
     class Meta:

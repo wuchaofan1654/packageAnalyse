@@ -1,25 +1,13 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from packageAnalyse.models import Module, Publish, UploadFile
-
-
-class UploadFileSerializer(ModelSerializer):
-    """
-    简单上传文件序列化器
-    """
-    create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
-
-    class Meta:
-        model = UploadFile
-        fields = '__all__'
+from packageAnalyse.models import Module, Publish
 
 
 class PublishSerializer(ModelSerializer):
     """
     简单发布记录序列化器
     """
-    file = UploadFileSerializer()
     create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
 
     class Meta:

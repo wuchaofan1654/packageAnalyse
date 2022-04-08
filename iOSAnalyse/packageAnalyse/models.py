@@ -8,7 +8,7 @@ class Publish(models.Model):
     build_no = models.CharField(default='', max_length=50)
     branch = models.CharField(default='', max_length=255)
     status = models.IntegerField(default=1)
-    file = models.ForeignKey(to='UploadFile', on_delete=models.Case, default=0)
+    jsonfile = models.FileField(upload_to='media/files', default='')
     create_time = models.DateTimeField(auto_created=True, auto_now=True)
 
     class Meta:
@@ -18,12 +18,6 @@ class Publish(models.Model):
 
     def __str__(self):
         return f'{self.version}-{self.build_no}【{self.branch}】'
-
-
-class UploadFile(models.Model):
-    file = models.FileField(upload_to='media/files')
-    status = models.IntegerField(default=1)
-    create_time = models.DateTimeField(auto_created=True, auto_now=True)
 
 
 class Module(models.Model):

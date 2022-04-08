@@ -49,11 +49,6 @@ class PublishModelViewSet(CustomModelViewSet):
         query_sets = [{'id': query.id, 'version': query.version} for query in query_sets]
         return SuccessResponse(query_sets)
 
-    @classmethod
-    def add_by_json(cls, request):
-        print(request.FILES, request.POST.get('version'))
-        return SuccessResponse()
-
 
 class ModuleModelViewSet(CustomModelViewSet):
     """

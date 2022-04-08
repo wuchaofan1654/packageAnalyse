@@ -119,7 +119,7 @@ name: "index",
 
   },
   created() {
-    this.queryParams.module_name = this.$route.params.module_name
+    this.queryParams.module_name = this.$route.query.module_name
     this.getModuleOptions()
     this.getList()
   },
@@ -128,7 +128,6 @@ name: "index",
       return value > 0 ? 'danger' : 'success'
     },
     getList() {
-      console.log(this.queryParams)
       listModule(this.queryParams).then(res => {
         this.modules = res.data.results
         this.total = res.data.count
@@ -155,10 +154,6 @@ name: "index",
     },
     showExtend() {
       this.dialogVisible = true
-      this.chart_title = this.queryParams.module_name + '走势图'
-    },
-    goBack() {
-      this.$router.go(-1)
     },
     handleSizeChange(value) {
       this.queryParams.pageSize = value

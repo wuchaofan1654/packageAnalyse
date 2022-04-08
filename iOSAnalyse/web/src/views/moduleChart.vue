@@ -26,6 +26,15 @@ export default {
       this.drawLineChart();
     })
   },
+
+  watch:{
+    modules:function(newVal,oldVal){
+      if (newVal !== oldVal) {
+        this.modules = newVal
+        this.drawLineChart()
+      }
+    }
+  },
   methods: {
     drawLineChart() {
       this.chartLine = echarts.init(this.$el, 'shine');
@@ -70,9 +79,8 @@ export default {
           }
         ]
       };
-      // 使用刚指定的配置项和数据显示图表
-      this.chartLine.setOption(option);
-    }
+      this.chartLine.setOption(option, true);
+    },
   }
 }
 </script>

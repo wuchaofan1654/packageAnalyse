@@ -57,17 +57,16 @@ name: "index",
     loading: false
     }
   },
-  created() {
-  this.getList()
+  mounted() {
+    this.getList(this.$route.query.pk1, this.$route.query.pk2)
   },
   methods: {
     getStatus(value) {
       return value > 0 ? 'danger' : 'success'
     },
-    getList() {
+    getList(pk1, pk2) {
       this.loading = true
-      comparePublish(1, 20).then(res => {
-
+      comparePublish(pk1, pk2).then(res => {
         this.loading = false
         this.modules = res.data
       })

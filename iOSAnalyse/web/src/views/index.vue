@@ -77,7 +77,7 @@
           <el-input v-model="form.branch"></el-input>
         </el-form-item>
         <el-form-item label="包大小json文件">
-          <input class="file" name="result" type="file" @change="appendFileToForm"/>
+          <input class="file" name="jsonfile" type="file" @change="appendFileToForm"/>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">

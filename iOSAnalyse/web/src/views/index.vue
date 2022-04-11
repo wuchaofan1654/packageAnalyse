@@ -24,11 +24,7 @@
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="版本号" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-link
-            :underline="false"
-            @click="getJumpUrl(scope.row.version)">
-            {{scope.row.version}}
-          </el-link>
+          {{scope.row.version}}
         </template>
       </el-table-column>
       <el-table-column label="build编号" align="center" :show-overflow-tooltip="true">

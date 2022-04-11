@@ -19,10 +19,8 @@ def sync_modules_by_publish(publish: Publish):
     try:
         publish_serialized = PublishSerializer(publish).data
         json_file_path = BASE_DIR + publish_serialized.get('jsonfile')
-        print(BASE_DIR, json_file_path)
         modules = json.loads(open(json_file_path).read()).get('module_list')
 
-        print(modules)
         simpled_modules = [
             {"module_name": module.get('module_name'), "module_size": module.get('module_size')}
             for module in modules
@@ -33,7 +31,6 @@ def sync_modules_by_publish(publish: Publish):
             m.publish.add(publish)
             m.save()
     except Exception as error:
-        print(error)
         return ErrorResponse(code=10004, msg=error)
 
 

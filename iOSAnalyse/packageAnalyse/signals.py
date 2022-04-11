@@ -10,7 +10,6 @@ from iOSAnalyse.settings import BASE_DIR
 from packageAnalyse.common.response import ErrorResponse
 from packageAnalyse.models import Publish, Module
 import json
-import os
 
 from packageAnalyse.serializers import PublishSerializer
 
@@ -30,8 +29,11 @@ def sync_modules_by_publish(publish: Publish):
             m = Module.objects.create(**module)
             m.publish.add(publish)
             m.save()
+
+        return True
+
     except Exception as error:
-        return ErrorResponse(code=10004, msg=error)
+        return error
 
 
 @receiver(post_save, sender=Publish)

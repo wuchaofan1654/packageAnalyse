@@ -129,8 +129,13 @@ name: "index",
     },
     getList() {
       listModule(this.queryParams).then(res => {
-        this.modules = res.data.results
-        this.total = res.data.count
+        if (res.code === 200) {
+          this.modules = res.data.results
+          this.total = res.data.count
+        } else {
+          this.modules = []
+          this.$message.error('接口数据异常，请稍后再试～')
+        }
       })
     },
     dataFormat(data) {
@@ -149,7 +154,12 @@ name: "index",
     getModuleOptions() {
       get_module_options().then(
         res => {
-          this.moduleNameOptions = res.data
+          if (res.code === 200) {
+            this.moduleNameOptions = res.data
+            this.total = res.data.count
+          } else {
+            this.moduleNameOptions = []
+          }
       })
     },
     showExtend() {

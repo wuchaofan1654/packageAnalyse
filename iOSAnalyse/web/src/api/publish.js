@@ -28,9 +28,9 @@ export function listBuildNo(query) {
 }
 
 // 通过json文件添加发布记录数据
-export function addPublishByFile(query) {
+export function addPublish(query) {
   return request({
-    url: "/ios/publish/byJson/",
+    url: "/ios/publish/",
     method: "post",
     params: query
   });

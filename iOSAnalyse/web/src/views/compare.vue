@@ -10,30 +10,55 @@
     <el-table
       v-loading="loading"
       :data="modules">
-      <el-table-column label="组件名" align="center" :show-overflow-tooltip="true">
+      <el-table-column
+        label="组件名"
+        align="center"
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-link :underline="false" @click="getJumpUrl(scope.row.name)">{{scope.row.name}}</el-link>
+          <el-link
+            :underline="false"
+            @click="getJumpUrl(scope.row.name)">
+            {{scope.row.name}}
+          </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="旧版本大小" align="center" prop="old" :show-overflow-tooltip="true">
+      <el-table-column
+        label="旧版本大小"
+        align="center"
+        prop="old"
+        sortable
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.old > 1024 * 1024" size="mini" type="danger">{{dataFormat(scope.row.old)}}</el-tag>
-          <el-tag v-else-if="scope.row.old > 0.2 * 1024" size="mini" type="warning">{{dataFormat(scope.row.old)}}</el-tag>
-          <el-tag v-else size="mini">{{dataFormat(scope.row.old)}}</el-tag>
+          <el-link :type="getVersionValueType(scope.row.old)" :underline="false">
+            <span>{{dataFormat(scope.row.old).value}}</span>
+            <span>{{dataFormat(scope.row.old).unit}}</span>
+          </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="新版本大小" align="center" prop="new" :show-overflow-tooltip="true">
+      <el-table-column
+        label="新版本大小"
+        align="center"
+        prop="new"
+        sortable
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.new > 1024 * 1024" size="mini" type="danger">{{dataFormat(scope.row.new)}}</el-tag>
-          <el-tag v-else-if="scope.row.new > 0.2 * 1024" size="mini" type="warning">{{dataFormat(scope.row.new)}}</el-tag>
-          <el-tag v-else size="mini">{{dataFormat(scope.row.new)}}</el-tag>
+          <el-link :type="getVersionValueType(scope.row.new)" :underline="false">
+            <span>{{dataFormat(scope.row.new).value}}</span>
+            <span>{{dataFormat(scope.row.new).unit}}</span>
+          </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="差值" align="center" :show-overflow-tooltip="true">
+      <el-table-column
+        label="差值"
+        align="center"
+        sortable
+        :sort-method="sortDiff"
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.diff > 0" size="mini" type="danger">上升 {{dataFormat(scope.row.diff)}}</el-tag>
-          <el-tag v-else-if="scope.row.diff < 0" size="mini" type="success">下降 {{dataFormat(scope.row.diff)}}</el-tag>
-          <el-tag v-else size="mini">0 b</el-tag>
+          <el-link :type="getDiffValueType(scope.row.diff)" :underline="false">
+            <span>{{dataFormat(scope.row.diff).value}}</span>
+            <span>{{dataFormat(scope.row.diff).unit}}</span>
+          </el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -64,29 +89,57 @@ name: "index",
     getStatus(value) {
       return value > 0 ? 'danger' : 'success'
     },
+
     getList(pk1, pk2) {
       this.loading = true
       comparePublish(pk1, pk2).then(res => {
         this.loading = false
-        this.modules = res.data
+        if (res.code === 200) {
+          this.modules = res.data
+
+        } else {
+          this.modules = []
+          this.$message.error('接口错误，请稍后再试～')
+        }
       })
     },
     dataFormat(data) {
+      const formatted = {
+        value: 0,
+        unit: 'b'
+      }
+
       if (!data) {
-        return 0 + 'b'
+        return formatted
       }
       if (Math.abs(data) > 1024 * 1024) {
-        return (data / (1024 * 1024)).toFixed(1) + ' mb'
+        formatted.value = (data / (1024 * 1024)).toFixed(2)
+        formatted.unit = 'mb'
       }
       else {
         if (Math.abs(data) > 1024) {
-          return (data / 1024).toFixed(1) + ' kb'
-        }
-        else {
-          return data + ' b'
+          formatted.value = (data / 1024).toFixed(2)
+          formatted.unit = 'kb'
+        } else {
+          formatted.value = data
         }
       }
+      return formatted
     },
+
+    getDiffValueType(value) {
+      value = this.dataFormat(value)
+      return value.value < 0 ? 'success' : value.value === 0 ? 'info' : 'danger'
+    },
+
+    getVersionValueType(value) {
+      return value > 1024 * 1024 ? 'danger' : value > 1024 ? 'warning': 'info'
+    },
+
+    sortDiff(a, b) {
+      return a.value - b.value
+    },
+
     getJumpUrl(module_name) {
       return this.$router.push({path: 'module', query: {module_name: module_name}})
     },

@@ -7,7 +7,7 @@
       <el-col :span="16" style="text-align: right">
         <div class="handlers" style="width: 240px; float: right">
           <el-container>
-            <el-button size="mini" type="success" @click="addPublish" v-if="false">
+            <el-button size="mini" type="success" @click="addPublish">
               上传发布记录
             </el-button>
             <el-button size="mini" type="primary" @click="compare">
@@ -77,7 +77,7 @@
           <el-input v-model="form.branch"></el-input>
         </el-form-item>
         <el-form-item label="包大小json文件">
-          <input class="file" name="jsonfile" type="file" @change="appendFileToForm"/>
+          <el-input class="file" name="jsonfile" type="file"/>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import {listPublish, addPublishByFile} from "@/api/publish"
+import {listPublish, addPublish} from "@/api/publish"
 import HeaderLeft from "./HeaderLeft";
 
 
@@ -114,7 +114,7 @@ export default {
         version: '',
         build_no: '',
         branch: '',
-        result: ''
+        jsonfile: ''
       }
     }
   },
@@ -128,8 +128,14 @@ export default {
       this.seleted = []
       listPublish().then(res => {
         this.loading = false
-        this.publishes = res.data.results
-        this.total = res.data.count
+        console.log(res)
+        if (res.code === 200) {
+          this.publishes = res.data.results
+          this.total = res.data.count
+        } else {
+          this.publishes = []
+          this.$message.error('接口数据异常，请稍后再试～')
+        }
       })
     },
     compare() {
@@ -162,6 +168,16 @@ export default {
       this.publishDialogVisible = true
       this.$message.success('正在开发中～')
     },
+    submitPublishForm() {
+      this.publishDialogVisible = false
+      addPublish(this.form).then(res => {
+        if(res.code === 200) {
+          this.$message.success('发布成功')
+        }else {
+          this.$message.success('添加失败')
+        }
+      })
+    },
     handleSizeChange(value) {
       this.queryParams.pageSize = value
       this.publishes = this.getList()
@@ -170,24 +186,6 @@ export default {
       this.queryParams.pageNum = value
       this.publishes = this.getList()
     },
-    appendFileToForm(e) {
-      this.form.result = e.target.files[0]
-    },
-    submitPublishForm() {
-      this.publishDialogVisible = false
-      console.log(this.form)
-      addPublishByFile(this.form).then(res => {
-        if(res.code === 200) {
-          this.$message.success('发布成功')
-        }else {
-          this.$message.success('添加失败')
-        }
-      })
-    },
-    downloadJsonfile(filepath) {
-      console.log(filepath)
-      window.open(filepath)
-    }
   }
 }
 </script>

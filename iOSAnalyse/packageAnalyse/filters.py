@@ -19,9 +19,10 @@ class PublishFilter(django_filters.FilterSet):
 class ModuleFilter(django_filters.FilterSet):
     module_name = django_filters.CharFilter(field_name='module_name', lookup_expr='icontains')
     status = django_filters.CharFilter(field_name='status', lookup_expr='icontains')
+    version = django_filters.CharFilter(field_name='version', lookup_expr='icontains')
     start = django_filters.CharFilter(field_name='create_time', lookup_expr='gt')
     end = django_filters.CharFilter(field_name='create_time', lookup_expr='lt')
 
     class Meta:
         model = Module
-        fields = ('module_name', 'status', 'create_time')
+        fields = ('module_name', 'status', 'version', 'create_time')

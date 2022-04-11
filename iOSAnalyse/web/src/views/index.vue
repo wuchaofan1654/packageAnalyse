@@ -24,7 +24,11 @@
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="版本号" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span>{{ scope.row.version }}</span>
+          <el-link
+            :underline="false"
+            @click="getJumpUrl(scope.row.version)">
+            {{scope.row.version}}
+          </el-link>
         </template>
       </el-table-column>
       <el-table-column label="build编号" align="center" :show-overflow-tooltip="true">
@@ -183,6 +187,9 @@ export default {
     handleCurrentPageChange(value) {
       this.queryParams.pageNum = value
       this.publishes = this.getList()
+    },
+    getJumpUrl(version) {
+      return this.$router.push({path: 'module', query: {version: version}})
     },
   }
 }

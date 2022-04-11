@@ -1,21 +1,19 @@
 <template>
   <el-card class="box-card" body-style="height: 100vh">
     <div slot="header" class="clearfix" style="height: 25px">
-      <el-col :span="8">
-        <header-left :title="title"/>
-      </el-col>
-      <el-col :span="16" style="text-align: right">
-        <div class="handlers" style="width: 240px; float: right">
-          <el-container>
-            <el-button size="mini" type="success" @click="addPublish">
-              上传发布记录
-            </el-button>
-            <el-button size="mini" type="primary" @click="compare">
-              开始对比
-            </el-button>
-          </el-container>
-        </div>
-      </el-col>
+      <el-row>
+        <el-col :span="12">
+          <header-left :title="title"/>
+        </el-col>
+        <el-col :span="12" style="text-align: right">
+          <el-button size="mini" type="success" @click="addPublish" v-if="false">
+            上传发布记录
+          </el-button>
+          <el-button size="mini" type="primary" @click="compare">
+            开始对比
+          </el-button>
+        </el-col>
+      </el-row>
     </div>
     <el-table
       v-loading="loading"
@@ -77,11 +75,11 @@
           <el-input v-model="form.branch"></el-input>
         </el-form-item>
         <el-form-item label="包大小json文件">
-          <el-input class="file" name="jsonfile" type="file"/>
+          <el-input class="file" name="jsonfile" v-model="form.jsonfile" type="file"/>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button @click="publishDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitPublishForm">提 交</el-button>
       </span>
     </el-dialog>
@@ -128,7 +126,6 @@ export default {
       this.seleted = []
       listPublish().then(res => {
         this.loading = false
-        console.log(res)
         if (res.code === 200) {
           this.publishes = res.data.results
           this.total = res.data.count
@@ -166,12 +163,13 @@ export default {
     },
     addPublish() {
       this.publishDialogVisible = true
-      this.$message.success('正在开发中～')
     },
     submitPublishForm() {
       this.publishDialogVisible = false
       addPublish(this.form).then(res => {
+        console.log(this.form)
         if(res.code === 200) {
+          console.log(res)
           this.$message.success('发布成功')
         }else {
           this.$message.success('添加失败')

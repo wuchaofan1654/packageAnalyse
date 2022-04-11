@@ -1,15 +1,21 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix" style="height: 25px">
-      <el-col :span="8">
+      <el-col :span="12">
         <header-left :title="title" />
       </el-col>
-      <el-col :span="16" style="text-align: right">
+      <el-col :span="12" style="text-align: right">
+        <el-input
+          size="mini"
+          style="width: 200px; float: right"
+          v-model="filterText"
+          @input="filterModuleName"
+          placeholder="支持输入模块名称过滤～"/>
       </el-col>
     </div>
     <el-table
       v-loading="loading"
-      :data="modules">
+      :data="filtered">
       <el-table-column
         label="组件名"
         align="center"
@@ -79,7 +85,9 @@ name: "index",
     title: '对比结果',
     versionOptions: [],
     modules: [],
-    loading: false
+    filtered: [],
+    loading: false,
+    filterText: '',
     }
   },
   mounted() {
@@ -95,7 +103,7 @@ name: "index",
       comparePublish(pk1, pk2).then(res => {
         this.loading = false
         if (res.code === 200) {
-          this.modules = res.data
+          this.modules = this.filtered = res.data
 
         } else {
           this.modules = []
@@ -143,6 +151,12 @@ name: "index",
     getJumpUrl(module_name) {
       return this.$router.push({path: 'module', query: {module_name: module_name}})
     },
+    filterModuleName() {
+      let filterText = this.filterText
+      this.filtered = this.modules.filter(function(module){
+        return  module.name.indexOf(filterText) !== -1;
+      });
+    }
   }
 }
 </script>

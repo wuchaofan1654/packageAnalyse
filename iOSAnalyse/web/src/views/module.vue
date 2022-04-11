@@ -1,13 +1,14 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix" style="height: 25px">
-      <el-col :span="8">
+      <el-col :span="12">
         <header-left :title="title" />
       </el-col>
-      <el-col :span="16" style="text-align: right">
+      <el-col :span="12" style="text-align: right">
         <el-select
           size="mini"
           v-model="queryParams.module_name"
+          filterable
           placeholder="请选择任一组件"
           @change="getList">
           <el-option

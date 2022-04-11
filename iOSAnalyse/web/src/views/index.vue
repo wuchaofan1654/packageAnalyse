@@ -7,7 +7,7 @@
       <el-col :span="16" style="text-align: right">
         <div class="handlers" style="width: 240px; float: right">
           <el-container>
-            <el-button size="mini" type="success" @click="addPublish">
+            <el-button size="mini" type="success" @click="addPublish" v-if="false">
               上传发布记录
             </el-button>
             <el-button size="mini" type="primary" @click="compare">

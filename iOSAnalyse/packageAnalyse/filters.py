@@ -24,4 +24,4 @@ class ModuleFilter(django_filters.FilterSet):
 
     class Meta:
         model = Module
-        fields = ('module_name', 'status', 'version', 'create_time')
+        fields = ('module_name', 'status', 'create_time')

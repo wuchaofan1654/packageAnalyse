@@ -7,7 +7,6 @@ from .models import Publish, Module
 class PublishAdmin(admin.ModelAdmin):
     list_display = ('version', 'build_no', 'branch', 'create_time')
     search_fields = ('version',)
-    inlines = [Publish]  # Inline
     fieldsets = (
         ['Main', {
             'fields': ('version', 'build_no'),
@@ -23,12 +22,6 @@ class PublishAdmin(admin.ModelAdmin):
 class ModuleAdmin(admin.ModelAdmin):
     list_display = ('module_name', 'module_size', 'create_time')  # list
     search_fields = ('module_name',)
-    inlines = [Module]  # Inline
-    fieldsets = (
-        ['Main', {
-            'fields': ('module_name', 'module_size'),
-        }],
-    )
 
 
 admin.site.register(Publish, PublishAdmin)

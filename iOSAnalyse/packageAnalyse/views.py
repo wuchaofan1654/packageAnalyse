@@ -46,7 +46,7 @@ class PublishModelViewSet(CustomModelViewSet):
 
         final_result_sorted = {
             k: v for k, v in sorted(final_result.items(),
-                                    key=lambda item: abs(item[1]['diff']), reverse=True)}
+                                    key=lambda item: item[1]['diff'], reverse=True)}
 
         results = []
         for k, v in final_result_sorted.items():
@@ -65,7 +65,6 @@ class PublishModelViewSet(CustomModelViewSet):
     def sync_modules(cls, request, pk):
         try:
             publish = Publish.objects.get(pk=pk)
-            print("===========")
             sync_modules_by_publish(publish)
             return SuccessResponse(msg='同步成功')
 

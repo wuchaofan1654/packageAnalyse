@@ -8,6 +8,12 @@ from packageAnalyse.serializers import PublishSerializer, ModuleSerializer
 from packageAnalyse.signals import sync_modules_by_publish
 
 
+class Result(object):
+    new: int = 0
+    old: int = 0
+    diff: int = 0
+
+
 class PublishModelViewSet(CustomModelViewSet):
     """
     模型的CRUD视图

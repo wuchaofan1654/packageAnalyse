@@ -72,6 +72,9 @@ name: "index",
       })
     },
     dataFormat(data) {
+      if (!data) {
+        return 0 + 'b'
+      }
       if (Math.abs(data) > 1024 * 1024) {
         return (data / (1024 * 1024)).toFixed(1) + ' mb'
       }

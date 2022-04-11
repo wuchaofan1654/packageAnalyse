@@ -12,8 +12,8 @@ class Publish(models.Model):
     create_time = models.DateTimeField(auto_created=True, auto_now=True)
 
     class Meta:
-        verbose_name = '版本发布记录表'
-        verbose_name_plural = '版本发布记录表'
+        verbose_name = '发布记录表'
+        verbose_name_plural = '发布记录表'
         ordering = ['-id']
 
     def __str__(self):
@@ -29,8 +29,8 @@ class Module(models.Model):
     create_time = models.DateTimeField(auto_created=True, auto_now=True)
 
     class Meta:
-        verbose_name = '模块大小记录表'
-        verbose_name_plural = '模块大小记录表'
+        verbose_name = '模块大小表'
+        verbose_name_plural = '模块大小表'
         ordering = ['-id']
 
     def __str__(self):

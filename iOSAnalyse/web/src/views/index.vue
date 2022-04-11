@@ -22,20 +22,26 @@
       @selection-change="onSelectChange"
       :data="publishes">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="版本号" align="center" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.version}}
-        </template>
+      <el-table-column
+        label="版本号"
+        align="center"
+        prop="version"
+        sortable
+        :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column label="build编号" align="center" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          <span>{{ scope.row.build_no }}</span>
-        </template>
+      <el-table-column
+        label="build编号"
+        align="center"
+        sortable
+        prop="build_no"
+        :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column label="分支名" align="center" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          <span size="mini">{{ scope.row.branch }}</span>
-        </template>
+      <el-table-column
+        label="分支名"
+        align="center"
+        sortable
+        prop="branch"
+        :show-overflow-tooltip="true">
       </el-table-column>
       <el-table-column label="json file" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
@@ -44,7 +50,9 @@
       </el-table-column>
       <el-table-column label="创建时间" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span size="mini" style="color: #606266">{{ scope.row.create_time }}</span>
+          <span size="mini" style="color: #606266">
+            <i class="el-icon-time"/>
+            {{ scope.row.create_time }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -187,6 +195,9 @@ export default {
     getJumpUrl(version) {
       return this.$router.push({path: 'module', query: {version: version}})
     },
+    downloadJsonfile(filepath) {
+      window.open(filepath)
+    }
   }
 }
 </script>

@@ -7,16 +7,6 @@ from .models import Publish, Module
 class PublishAdmin(admin.ModelAdmin):
     list_display = ('version', 'build_no', 'branch', 'create_time')
     search_fields = ('version',)
-    fieldsets = (
-        ['Main', {
-            'fields': ('version', 'build_no'),
-        }],
-        ['Advance', {
-            'classes': ('version',),
-            'fields': ('branch',),
-        }]
-
-    )
 
 
 class ModuleAdmin(admin.ModelAdmin):

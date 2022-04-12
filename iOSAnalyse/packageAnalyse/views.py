@@ -37,7 +37,6 @@ class PublishModelViewSet(CustomModelViewSet):
                 for _module in pk2_modules:
                     if _module.module_name == result.module_name:
                         result.pk2_module_size = _module.module_size
-
                 data.results.append(result.calculate_diff())
 
             diff_modules = [_module for _module in pk2_modules if _module.module_name

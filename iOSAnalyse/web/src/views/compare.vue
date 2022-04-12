@@ -61,9 +61,9 @@
         :sort-method="sortDiff"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-link :type="getDiffValueType(scope.row.diff)" :underline="false">
-            <span>{{ dataFormat(scope.row.diff).value }}</span>
-            <span>{{ dataFormat(scope.row.diff).unit }}</span>
+          <el-link :type="getDiffValueType(scope.row.diff_size)" :underline="false">
+            <span>{{ dataFormat(scope.row.diff_size).value }}</span>
+            <span>{{ dataFormat(scope.row.diff_size).unit }}</span>
           </el-link>
         </template>
       </el-table-column>

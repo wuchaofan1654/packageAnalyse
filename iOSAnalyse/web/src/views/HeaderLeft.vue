@@ -28,8 +28,8 @@ export default {
   data () {
     return {
       menus: [
-        {title: '发布列表', icon: 'el-icon-edit', route: '/v1'},
-        {title: '模块列表', icon: 'el-icon-edit', route: '/v1/module'}
+        {title: '发布列表', icon: 'el-icon-s-home', route: '/v1'},
+        {title: '模块列表', icon: 'el-icon-s-data', route: '/v1/module'}
       ]
     }
   },

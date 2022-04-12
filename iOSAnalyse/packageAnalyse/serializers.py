@@ -20,7 +20,7 @@ class ModuleSerializer(ModelSerializer):
     简单模块序列化器
     """
     create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
-    publish = PublishSerializer(many=True, read_only=True)
+    publish = PublishSerializer(read_only=True)
 
     class Meta:
         model = Module

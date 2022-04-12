@@ -86,9 +86,20 @@ WSGI_APPLICATION = 'iOSAnalyse.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
+#         'NAME': 'packageAnalyse',             # 数据库名称
+#         'USER': 'root',                         # 数据库登录用户名
+#         'PASSWORD': 'root',                     # 密码
+#         'HOST': '127.0.0.1',                    # 数据库主机IP，如保持默认，则为127.0.0.1
+#         'PORT': 3306,
+#     }
+# }
 
 
 # Password validation

@@ -6,9 +6,13 @@
           <header-left :title="title"/>
         </el-col>
         <el-col :span="12" style="text-align: right">
-          <el-button size="mini" type="success" @click="addPublish" v-if="false">
-            上传发布记录
-          </el-button>
+          <el-input
+            size="mini"
+            style="width: 200px"
+            v-model="filterText"
+            @input="filterVersion"
+            placeholder="支持输入版本号过滤～"/>
+          <el-divider direction="vertical" />
           <el-button size="mini" type="primary" @click="compare">
             开始对比
           </el-button>
@@ -20,7 +24,7 @@
       ref="multipleTable"
       @select-all="onSelectAll"
       @selection-change="onSelectChange"
-      :data="publishes">
+      :data="filtered">
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column
         label="版本号"
@@ -43,7 +47,7 @@
         prop="branch"
         :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column label="json file" align="center" :show-overflow-tooltip="true">
+      <el-table-column label="Json-file" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-button type="text" @click="downloadJsonfile(scope.row.jsonfile)">点击查看</el-button>
         </template>
@@ -108,8 +112,10 @@ export default {
       versionOptions: [],
       selectList: [],
       publishes: [],
+      filtered: [],
       loading: false,
       total: 0,
+      filterText: '',
       publishDialogVisible: false,
       pageSizes: [10, 20 ,50, 100],
       queryParams: {
@@ -135,7 +141,7 @@ export default {
       listPublish().then(res => {
         this.loading = false
         if (res.code === 200) {
-          this.publishes = res.data.results
+          this.publishes = this.filtered = res.data.results
           this.total = res.data.count
         } else {
           this.publishes = []
@@ -197,6 +203,12 @@ export default {
     },
     downloadJsonfile(filepath) {
       window.open(filepath)
+    },
+    filterVersion() {
+      let filterText = this.filterText
+      this.filtered = this.publishes.filter(function (publish) {
+        return publish.version.indexOf(filterText) !== -1;
+      });
     }
   }
 }

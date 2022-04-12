@@ -3,7 +3,7 @@
 Create by sandy at 20:02 07/04/2022
 Description: ToDo
 """
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from iOSAnalyse.settings import BASE_DIR
@@ -27,7 +27,7 @@ def sync_modules_by_publish(publish: Publish):
 
         for module in simpled_modules:
             m = Module.objects.create(**module)
-            m.publish.add(publish)
+            m.publish = publish
             m.save()
 
         return True
@@ -40,4 +40,7 @@ def sync_modules_by_publish(publish: Publish):
 def publish_saved_callback(sender, **kwargs):
     instance = kwargs.get('instance')
     sync_modules_by_publish(instance)
+
+
+
 

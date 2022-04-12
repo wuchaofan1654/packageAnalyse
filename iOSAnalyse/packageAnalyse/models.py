@@ -21,7 +21,7 @@ class Publish(models.Model):
 
 
 class Module(models.Model):
-    publish = models.ManyToManyField(to='Publish', default=0)
+    publish = models.ForeignKey(to='Publish', on_delete=models.CASCADE, default=0)
     module_name = models.CharField(default='', max_length=50)
     module_size = models.IntegerField(default=0)
     module_type = models.IntegerField(default=0)

@@ -34,6 +34,7 @@
         :label="labels.pk1"
         align="center"
         sortable
+        :sort-method="sortModuleSize"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-link :type="getVersionValueType(scope.row.pk1_module_size)" :underline="false">
@@ -46,6 +47,7 @@
         :label="labels.pk2"
         align="center"
         sortable
+        :sort-method="sortModuleSize"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-link :type="getVersionValueType(scope.row.pk2_module_size)" :underline="false">
@@ -144,6 +146,10 @@ export default {
       return value > 1024 * 1024 ? 'danger' : value > 1024 ? 'warning' : 'info'
     },
 
+    sortModuleSize(a, b) {
+      return a.value - b.value
+    },
+
     sortDiff(a, b) {
       return a.value - b.value
     },
@@ -154,7 +160,7 @@ export default {
     filterModuleName() {
       let filterText = this.filterText
       this.filtered = this.modules.filter(function (module) {
-        return module.name.indexOf(filterText) !== -1;
+        return module.module_name.indexOf(filterText) !== -1;
       });
     }
   }

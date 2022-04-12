@@ -9,6 +9,7 @@
         <el-dropdown-item v-for="menu in menus" :key="menu.title">
           <el-link
             :icon="menu.icon"
+            :underline="false"
             :href="menu.route">
             {{menu.title}}
           </el-link>

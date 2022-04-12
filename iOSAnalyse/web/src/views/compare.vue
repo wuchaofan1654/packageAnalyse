@@ -1,17 +1,19 @@
 <template>
   <el-card class="box-card">
-    <div slot="header" class="clearfix" style="height: 25px">
-      <el-col :span="12">
-        <header-left :title="title" />
-      </el-col>
-      <el-col :span="12" style="text-align: right">
-        <el-input
-          size="mini"
-          style="width: 200px; float: right"
-          v-model="filterText"
-          @input="filterModuleName"
-          placeholder="支持输入模块名称过滤～"/>
-      </el-col>
+    <div slot="header" class="clearfix">
+      <el-row :gutter="22">
+        <el-col :span="12">
+          <header-left :title="title"/>
+        </el-col>
+        <el-col :span="12" style="text-align: right">
+          <el-input
+            size="mini"
+            style="width: 200px; float: right"
+            v-model="filterText"
+            @input="filterModuleName"
+            placeholder="支持输入模块名称过滤～"/>
+        </el-col>
+      </el-row>
     </div>
     <el-table
       v-loading="loading"
@@ -23,47 +25,45 @@
         <template slot-scope="scope">
           <el-link
             :underline="false"
-            @click="getJumpUrl(scope.row.name)">
-            {{scope.row.name}}
+            @click="getJumpUrl(scope.row.module_name)">
+            {{ scope.row.module_name }}
           </el-link>
         </template>
       </el-table-column>
       <el-table-column
-        label="旧版本大小"
+        :label="labels.pk1"
         align="center"
-        prop="old"
         sortable
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-link :type="getVersionValueType(scope.row.old)" :underline="false">
-            <span>{{dataFormat(scope.row.old).value}}</span>
-            <span>{{dataFormat(scope.row.old).unit}}</span>
+          <el-link :type="getVersionValueType(scope.row.pk1_module_size)" :underline="false">
+            <span>{{ dataFormat(scope.row.pk1_module_size).value }}</span>
+            <span>{{ dataFormat(scope.row.pk1_module_size).unit }}</span>
           </el-link>
         </template>
       </el-table-column>
       <el-table-column
-        label="新版本大小"
+        :label="labels.pk2"
         align="center"
-        prop="new"
         sortable
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-link :type="getVersionValueType(scope.row.new)" :underline="false">
-            <span>{{dataFormat(scope.row.new).value}}</span>
-            <span>{{dataFormat(scope.row.new).unit}}</span>
+          <el-link :type="getVersionValueType(scope.row.pk2_module_size)" :underline="false">
+            <span>{{ dataFormat(scope.row.pk2_module_size).value }}</span>
+            <span>{{ dataFormat(scope.row.pk2_module_size).unit }}</span>
           </el-link>
         </template>
       </el-table-column>
       <el-table-column
-        label="差值"
+        label="差值(Pk2-Pk1)"
         align="center"
         sortable
         :sort-method="sortDiff"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-link :type="getDiffValueType(scope.row.diff)" :underline="false">
-            <span>{{dataFormat(scope.row.diff).value}}</span>
-            <span>{{dataFormat(scope.row.diff).unit}}</span>
+            <span>{{ dataFormat(scope.row.diff).value }}</span>
+            <span>{{ dataFormat(scope.row.diff).unit }}</span>
           </el-link>
         </template>
       </el-table-column>
@@ -79,18 +79,18 @@ export default {
   components: {
     HeaderLeft
   },
-name: "index",
+  name: "index",
   data() {
-  return {
-    title: '对比结果',
-    versionOptions: [],
-    modules: [],
-    filtered: [],
-    loading: false,
-    filterText: '',
+    return {
+      title: '对比结果',
+      modules: [],
+      filtered: [],
+      loading: false,
+      filterText: '',
+      labels: {pk1: '', pk2: ''}
     }
   },
-  mounted() {
+  created() {
     this.getList(this.$route.query.pk1, this.$route.query.pk2)
   },
   methods: {
@@ -98,13 +98,14 @@ name: "index",
       return value > 0 ? 'danger' : 'success'
     },
 
-    getList(pk1, pk2) {
+    async getList(pk1, pk2) {
       this.loading = true
-      comparePublish(pk1, pk2).then(res => {
+      await comparePublish(pk1, pk2).then(res => {
         this.loading = false
         if (res.code === 200) {
-          this.modules = this.filtered = res.data
-
+          this.labels.pk1 = res.data.pk1_publish.version + '(' + res.data.pk1_publish.build_no + ')'
+          this.labels.pk2 = res.data.pk2_publish.version + '(' + res.data.pk2_publish.build_no + ')'
+          this.modules = this.filtered = res.data.results
         } else {
           this.modules = []
           this.$message.error('接口错误，请稍后再试～')
@@ -123,8 +124,7 @@ name: "index",
       if (Math.abs(data) > 1024 * 1024) {
         formatted.value = (data / (1024 * 1024)).toFixed(2)
         formatted.unit = 'mb'
-      }
-      else {
+      } else {
         if (Math.abs(data) > 1024) {
           formatted.value = (data / 1024).toFixed(2)
           formatted.unit = 'kb'
@@ -141,7 +141,7 @@ name: "index",
     },
 
     getVersionValueType(value) {
-      return value > 1024 * 1024 ? 'danger' : value > 1024 ? 'warning': 'info'
+      return value > 1024 * 1024 ? 'danger' : value > 1024 ? 'warning' : 'info'
     },
 
     sortDiff(a, b) {
@@ -153,8 +153,8 @@ name: "index",
     },
     filterModuleName() {
       let filterText = this.filterText
-      this.filtered = this.modules.filter(function(module){
-        return  module.name.indexOf(filterText) !== -1;
+      this.filtered = this.modules.filter(function (module) {
+        return module.name.indexOf(filterText) !== -1;
       });
     }
   }

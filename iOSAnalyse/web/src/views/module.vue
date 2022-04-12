@@ -1,7 +1,8 @@
 <template>
   <el-card class="box-card">
-    <div slot="header" class="clearfix" style="height: 25px">
-      <el-col :span="12">
+    <div slot="header" class="clearfix">
+      <el-row :gutter="22">
+        <el-col :span="12">
         <header-left :title="title" />
       </el-col>
       <el-col :span="12" style="text-align: right">
@@ -17,7 +18,7 @@
             :label="item.name"
             :value="item.name"/>
         </el-select>
-        <el-divider v-if="queryParams.module_name" direction="vertical"></el-divider>
+        <el-divider v-if="queryParams.module_name" direction="vertical"/>
         <el-button
           v-if="queryParams.module_name"
           size="mini"
@@ -25,6 +26,7 @@
           @click="showExtend">
           查看走势图</el-button>
       </el-col>
+      </el-row>
     </div>
     <el-table
       :data="modules">

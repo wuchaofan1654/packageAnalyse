@@ -1,17 +1,11 @@
 
 from packageAnalyse.common.response import SuccessResponse, ErrorResponse
-from packageAnalyse.common.utils import deep_update
 from packageAnalyse.common.viewsets import CustomModelViewSet
 from packageAnalyse.filters import PublishFilter, ModuleFilter
+from packageAnalyse.instances import CompareResult, SingleCompareResult
 from packageAnalyse.models import Publish, Module
 from packageAnalyse.serializers import PublishSerializer, ModuleSerializer
 from packageAnalyse.signals import sync_modules_by_publish
-
-
-class Result(object):
-    new: int = 0
-    old: int = 0
-    diff: int = 0
 
 
 class PublishModelViewSet(CustomModelViewSet):
@@ -26,40 +20,37 @@ class PublishModelViewSet(CustomModelViewSet):
 
     @classmethod
     def compare_by_pk(cls, request, *args, **kwargs):
-        pk1 = kwargs.get('pk1')
-        pk2 = kwargs.get('pk2')
-        modules_1 = Module.objects.filter(publish__id=int(pk1))
-        modules_2 = Module.objects.filter(publish__id=int(pk2))
+        try:
+            pk1 = kwargs.get('pk1')
+            pk2 = kwargs.get('pk2')
 
-        final_result = {
-            module.module_name: {"old": module.module_size}
-            for module in modules_1
-        }
+            pk1_modules = Module.objects.filter(publish__id=int(pk1))
+            pk2_modules = Module.objects.filter(publish__id=int(pk2))
 
-        for module in modules_2:
-            deep_update(
-                _dict=final_result,
-                key=module.module_name,
-                value={"new": module.module_size}
+            data = CompareResult(
+                pk1_publish=PublishSerializer(Publish.objects.get(pk=int(pk1))).data,
+                pk2_publish=PublishSerializer(Publish.objects.get(pk=int(pk2))).data
             )
 
-        for key, value in final_result.items():
-            deep_update(
-                _dict=final_result,
-                key=key,
-                value={"diff": value.get('new', 0) - value.get('old', 0)}
-            )
+            for module in pk1_modules:
+                result = SingleCompareResult(module_name=module.module_name, pk1_module_size=module.module_size)
+                for _module in pk2_modules:
+                    if _module.module_name == result.module_name:
+                        result.pk2_module_size = _module.module_size
 
-        final_result_sorted = {
-            k: v for k, v in sorted(final_result.items(),
-                                    key=lambda item: item[1]['diff'], reverse=True)}
+                data.results.append(result.calculate_diff())
 
-        results = []
-        for k, v in final_result_sorted.items():
-            v['name'] = k
-            results.append(v)
+            diff_modules = [_module for _module in pk2_modules if _module.module_name
+                            not in [module.module_name for module in pk1_modules]]
 
-        return SuccessResponse(results)
+            data.results.extend(
+                [SingleCompareResult(
+                    module_name=module.module_name,
+                    pk2_module_size=module.module_size).calculate_diff() for module in diff_modules])
+
+            return SuccessResponse(data.sort_by_diff().dict())
+        except Exception as err:
+            return ErrorResponse(code=201, msg=f'{err}')
 
     @classmethod
     def get_build_options(cls, request):

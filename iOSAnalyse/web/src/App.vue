@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view/>
 </template>
 
 <script>
@@ -8,7 +8,7 @@ export default {
   methods: {
     gotoPage(path) {
       this.$router.push({path: path})
-    }
+    },
   }
 }
 </script>
@@ -16,6 +16,11 @@ export default {
 <style>
 body::-webkit-scrollbar {
   display: none;
+}
+
+.clearfix {
+  height: 25px;
+  alignment: center;
 }
 
 </style>

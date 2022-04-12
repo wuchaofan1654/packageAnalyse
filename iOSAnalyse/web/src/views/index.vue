@@ -1,6 +1,6 @@
 <template>
-  <el-card class="box-card" body-style="height: 100vh">
-    <div slot="header" class="clearfix" style="height: 25px">
+  <el-card class="box-card">
+    <div slot="header" class="clearfix">
       <el-row>
         <el-col :span="12">
           <header-left :title="title"/>

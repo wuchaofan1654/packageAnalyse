@@ -11,6 +11,7 @@
             style="width: 200px"
             v-model="filterText"
             @input="filterVersion"
+            prefix-icon="el-icon-search"
             placeholder="支持输入版本号过滤～"/>
           <el-divider direction="vertical" />
           <el-button size="mini" type="primary" @click="compare">

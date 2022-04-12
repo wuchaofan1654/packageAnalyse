@@ -10,7 +10,7 @@ class PublishAdmin(admin.ModelAdmin):
 
 
 class ModuleAdmin(admin.ModelAdmin):
-    list_display = ('module_name', 'module_size', 'create_time')  # list
+    list_display = ('module_name', 'module_size', 'create_time')
     search_fields = ('module_name',)
 
 

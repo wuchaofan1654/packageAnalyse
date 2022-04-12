@@ -56,6 +56,7 @@ coverage.xml
 
 meida
 db.sqlite3
+.db.sqlite3
 
 # Django stuff:
 *.log

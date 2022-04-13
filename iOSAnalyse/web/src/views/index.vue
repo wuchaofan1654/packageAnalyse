@@ -48,14 +48,24 @@
         prop="branch"
         :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column label="Json-file" align="center" :show-overflow-tooltip="true">
+      <el-table-column
+        label="Json-file"
+        align="center"
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-button type="text" @click="downloadJsonfile(scope.row.jsonfile)">点击查看</el-button>
+          <el-tooltip :content="scope.row.jsonfile" placement="top">
+            <el-button type="text" @click="downloadJsonfile(scope.row.jsonfile)">
+              点击查看
+            </el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" :show-overflow-tooltip="true">
+      <el-table-column
+        label="创建时间"
+        align="center"
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span size="mini" style="color: #606266">
+          <span size="mini" style="color: #606266; font-size: 12px">
             <i class="el-icon-time"/>
             {{ scope.row.create_time }}</span>
         </template>

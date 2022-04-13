@@ -10,7 +10,7 @@
             size="mini"
             style="width: 200px"
             v-model="queryParams.version"
-            @input="getList"
+            @blur="getList"
             clearable
             prefix-icon="el-icon-search"
             placeholder="支持输入版本号过滤～"/>
@@ -19,7 +19,7 @@
           v-model="queryParams.module_name"
           filterable
           clearable
-          placeholder="请选择任一组件"
+          placeholder="选择组件后可查看趋势图～"
           @change="getList">
           <el-option
             v-for="item in moduleNameOptions"
@@ -49,7 +49,7 @@
           <el-tag size="mini" type="info">{{scope.row.publish.version}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="组件大小" align="center" sortable :show-overflow-tooltip="true">
+      <el-table-column label="组件大小" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.module_size > 1024 * 1024" size="mini" type="danger">
             {{dataFormat(scope.row.module_size)}}
@@ -67,7 +67,7 @@
       </el-table-column>
       <el-table-column label="创建时间" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span size="mini" style="color: #606266">
+          <span size="mini" style="color: #606266; font-size: 12px">
              <i class="el-icon-time"/>
             {{scope.row.create_time}}
           </span>

@@ -40,7 +40,7 @@ class OneClickUpdate(object):
     def update_server(cls):
         try:
             logger.info('开始更新后端代码...')
-            uwsgi_file_path = os.path.join(BASE_DIR, 'packageAnalyse', 'iOSAnalyse', 'uwsgi.ini')
+            uwsgi_file_path = os.path.join(BASE_DIR, 'iOSAnalyse', 'uwsgi.ini')
             logger.info(f'uwsgi 文件绝对路径: {uwsgi_file_path}')
             result = os.popen(f"pkill -9 uwsgi && uwsgi --plugin python3 {uwsgi_file_path}")
             logger.info(result.read().strip())

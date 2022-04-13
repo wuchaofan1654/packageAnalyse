@@ -12,6 +12,9 @@ logger = logging.getLogger(__name__)
 
 
 class OneClickUpdate(object):
+    """
+    todo Docker
+    """
 
     def __init__(self):
         result = os.popen(f'git pull').read()
@@ -26,8 +29,10 @@ class OneClickUpdate(object):
 
     @classmethod
     def update_web(cls):
-        result = os.popen(f'cd {BASE_DIR} && cd web/ && npm run build && \\cp dist/ /var/www/site/ && nginx -s reload')
+        result = os.popen(
+            f'cd {BASE_DIR} && cd web/ && npm run build && \\cp -rf dist/ /var/www/site/ && nginx -s reload')
         logger.info(result.read())
 
 
-OneClickUpdate()
+if __name__ == '__main__':
+    OneClickUpdate()

@@ -1,10 +1,10 @@
 <template>
-  <el-card class="box-card" body-style="min-height: 85vh">
-    <div slot="header" class="clearfix">
+  <el-container>
+    <el-header height="42px" style="background-color: #baf6db; position: sticky; z-index: 0; ">
       <el-row :gutter="22">
         <el-col :span="8">
-        <header-left :title="title" />
-      </el-col>
+          <top-bar :title="title"/>
+        </el-col>
       <el-col :span="16" style="text-align: right">
         <el-input
             size="mini"
@@ -37,8 +37,9 @@
           查看走势图</el-button>
       </el-col>
       </el-row>
-    </div>
-    <el-table
+    </el-header>
+    <el-main>
+      <el-table
       :data="modules">
       <el-table-column label="组件名" align="center" sortable :show-overflow-tooltip="true">
         <template slot-scope="scope">
@@ -75,40 +76,41 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog
-      :title="title"
-      :visible.sync="dialogVisible"
-      width="60%"
-      center>
-      <module-chart :modules="modules" v-if="dialogVisible"></module-chart>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible=false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible=false">确 定</el-button>
-      </span>
-    </el-dialog>
-     <el-pagination
-      style="text-align: center; margin: 20px"
-      :total="total"
-      :page-size="queryParams.pageSize"
-      :current-page="queryParams.pageNum"
-      :page-sizes="pageSizes"
-      :background="true"
-      layout="total, sizes, prev, pager, next, jumper"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentPageChange"
-    />
-  </el-card>
+      <el-dialog
+        :title="title"
+        :visible.sync="dialogVisible"
+        width="60%"
+        center>
+        <module-chart :modules="modules" v-if="dialogVisible"></module-chart>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible=false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible=false">确 定</el-button>
+        </span>
+      </el-dialog>
+       <el-pagination
+        style="text-align: center; margin: 20px"
+        :total="total"
+        :page-size="queryParams.pageSize"
+        :current-page="queryParams.pageNum"
+        :page-sizes="pageSizes"
+        :background="true"
+        layout="total, sizes, prev, pager, next, jumper"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentPageChange"
+      />
+    </el-main>
+  </el-container>
 </template>
 
 <script>
 import {listModule, get_module_options} from "@/api/module"
 import moduleChart from "./moduleChart";
-import HeaderLeft from "./HeaderLeft";
+import topBar from "./topBar";
 
 export default {
   components: {
     moduleChart,
-    HeaderLeft,
+    topBar,
   },
 name: "index",
   data() {

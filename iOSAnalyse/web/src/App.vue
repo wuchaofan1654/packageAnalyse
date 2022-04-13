@@ -3,13 +3,9 @@
 </template>
 
 <script>
+
 export default {
   name: 'App',
-  methods: {
-    gotoPage(path) {
-      this.$router.push({path: path})
-    },
-  }
 }
 </script>
 
@@ -17,10 +13,9 @@ export default {
 body::-webkit-scrollbar {
   display: none;
 }
-
-.clearfix {
-  height: 25px;
-  alignment: center;
+.class-header {
+  height: 42px;
+  color: #42b983;
 }
 
 </style>

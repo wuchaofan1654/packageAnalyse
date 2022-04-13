@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "HeaderLeft",
+  name: "Header",
   data () {
     return {
       menus: [

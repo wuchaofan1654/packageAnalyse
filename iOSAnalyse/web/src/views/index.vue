@@ -1,144 +1,143 @@
 <template>
-  <el-card class="box-card" body-style="min-height: 85vh">
-    <div slot="header" class="clearfix">
-      <el-row>
+  <el-container>
+    <el-header height="42px" style="background-color: #baf6db">
+      <el-row :gutter="22">
         <el-col :span="12">
-          <header-left :title="title"/>
+          <top-bar :title="title"/>
         </el-col>
-        <el-col :span="12" style="text-align: right">
-          <el-input
-            size="mini"
-            style="width: 200px"
-            v-model="filterText"
-            @input="filterVersion"
-            prefix-icon="el-icon-search"
-            placeholder="支持输入版本号过滤～"/>
-          <el-divider direction="vertical" />
-          <el-button size="mini" type="primary" @click="compare">
-            开始对比
-          </el-button>
+        <el-col :span="12">
+          <div class="class-options">
+            <el-input
+              size="mini"
+              style="width: 200px"
+              v-model="queryParams.version"
+              @blur="getList"
+              prefix-icon="el-icon-search"
+              placeholder="支持输入版本号过滤～"/>
+            <el-divider direction="vertical"/>
+            <el-button size="mini" type="primary" @click="compare">
+              开始对比
+            </el-button>
+          </div>
         </el-col>
       </el-row>
-    </div>
-    <el-table
-      v-loading="loading"
-      ref="multipleTable"
-      @select-all="onSelectAll"
-      @selection-change="onSelectChange"
-      :data="filtered">
-      <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column
-        label="版本号"
-        align="center"
-        prop="version"
-        sortable
-        :show-overflow-tooltip="true">
-      </el-table-column>
-      <el-table-column
-        label="build编号"
-        align="center"
-        sortable
-        prop="build_no"
-        :show-overflow-tooltip="true">
-      </el-table-column>
-      <el-table-column
-        label="分支名"
-        align="center"
-        sortable
-        prop="branch"
-        :show-overflow-tooltip="true">
-      </el-table-column>
-      <el-table-column
-        label="Json-file"
-        align="center"
-        :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          <el-tooltip :content="scope.row.jsonfile" placement="top">
-            <el-button type="text" @click="downloadJsonfile(scope.row.jsonfile)">
-              点击查看
-            </el-button>
-          </el-tooltip>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="创建时间"
-        align="center"
-        :show-overflow-tooltip="true">
-        <template slot-scope="scope">
+    </el-header>
+    <el-main>
+      <el-table
+        v-loading="loading"
+        ref="multipleTable"
+        @select-all="onSelectAll"
+        @selection-change="onSelectChange"
+        :data="publishes">
+        <el-table-column type="selection" width="55" align="center"/>
+        <el-table-column
+          label="版本号"
+          align="center"
+          prop="version"
+          sortable
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column
+          label="build编号"
+          align="center"
+          sortable
+          prop="build_no"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column
+          label="分支名"
+          align="center"
+          sortable
+          prop="branch"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column
+          label="Json-file"
+          align="center"
+          :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.jsonfile" placement="top">
+              <el-button type="text" @click="downloadJsonfile(scope.row.jsonfile)">
+                点击查看
+              </el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="创建时间"
+          align="center"
+          :show-overflow-tooltip="true">
+          <template slot-scope="scope">
           <span size="mini" style="color: #606266; font-size: 12px">
             <i class="el-icon-time"/>
             {{ scope.row.create_time }}</span>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      style="text-align: center; margin: 20px"
-      :total="total"
-      :page-size="queryParams.pageSize"
-      :current-page="queryParams.pageNum"
-      :page-sizes="pageSizes"
-      :background="true"
-      layout="total, sizes, prev, pager, next, jumper"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentPageChange"
-    />
-    <el-dialog
-      title="手动上传发布记录"
-      :visible.sync="publishDialogVisible"
-      width="60%"
-      center>
-      <el-form ref="form" :model="form" label-width="150px">
-        <el-form-item label="App版本">
-          <el-input v-model="form.version"></el-input>
-        </el-form-item>
-        <el-form-item label="jenkins构建编号">
-          <el-input v-model="form.build_no"></el-input>
-        </el-form-item>
-        <el-form-item label="版本分支">
-          <el-input v-model="form.branch"></el-input>
-        </el-form-item>
-        <el-form-item label="包大小json文件">
-          <el-input class="file" name="jsonfile" v-model="form.jsonfile" type="file"/>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        style="text-align: center; margin: 20px"
+        :total="total"
+        :page-size="queryParams.pageSize"
+        :current-page="queryParams.pageNum"
+        :page-sizes="pageSizes"
+        :background="true"
+        layout="total, sizes, prev, pager, next, jumper"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentPageChange"
+      />
+      <el-dialog
+        title="手动上传发布记录"
+        :visible.sync="publishDialogVisible"
+        width="60%"
+        center>
+        <el-form ref="form" :model="form" label-width="150px">
+          <el-form-item label="App版本">
+            <el-input v-model="form.version"></el-input>
+          </el-form-item>
+          <el-form-item label="jenkins构建编号">
+            <el-input v-model="form.build_no"></el-input>
+          </el-form-item>
+          <el-form-item label="版本分支">
+            <el-input v-model="form.branch"></el-input>
+          </el-form-item>
+          <el-form-item label="包大小json文件">
+            <el-input class="file" name="jsonfile" v-model="form.jsonfile" type="file"/>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
         <el-button @click="publishDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitPublishForm">提 交</el-button>
       </span>
-    </el-dialog>
-  </el-card>
+      </el-dialog>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
 import {listPublish, addPublish} from "@/api/publish"
-import HeaderLeft from "./HeaderLeft";
+import topBar from "./topBar";
 
 
 export default {
   name: "index",
-  components: {HeaderLeft},
+  components: {topBar},
   data() {
     return {
       title: 'iOS发布记录',
       versionOptions: [],
       selectList: [],
       publishes: [],
-      filtered: [],
       loading: false,
       total: 0,
       filterText: '',
       publishDialogVisible: false,
-      pageSizes: [10, 20 ,50, 100],
+      pageSizes: [10, 20, 50, 100],
       queryParams: {
         pageNum: 1,
-        pageSize: 20
+        pageSize: 20,
+        version: ''
       },
-      form: {
-        version: '',
-        build_no: '',
-        branch: '',
-        jsonfile: ''
-      }
+      form: {}
     }
   },
   created() {
@@ -152,7 +151,7 @@ export default {
       listPublish().then(res => {
         this.loading = false
         if (res.code === 200) {
-          this.publishes = this.filtered = res.data.results
+          this.publishes = res.data.results
           this.total = res.data.count
         } else {
           this.publishes = []
@@ -193,10 +192,10 @@ export default {
       this.publishDialogVisible = false
       addPublish(this.form).then(res => {
         console.log(this.form)
-        if(res.code === 200) {
+        if (res.code === 200) {
           console.log(res)
           this.$message.success('发布成功')
-        }else {
+        } else {
           this.$message.success('添加失败')
         }
       })
@@ -215,15 +214,12 @@ export default {
     downloadJsonfile(filepath) {
       window.open(filepath)
     },
-    filterVersion() {
-      let filterText = this.filterText
-      this.filtered = this.publishes.filter(function (publish) {
-        return publish.version.indexOf(filterText) !== -1;
-      });
-    }
   }
 }
 </script>
 
 <style scoped>
+.class-options {
+  text-align: right;
+}
 </style>

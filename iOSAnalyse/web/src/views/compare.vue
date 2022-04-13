@@ -1,22 +1,23 @@
 <template>
-  <el-card class="box-card" body-style="min-height: 85vh">
-    <div slot="header" class="clearfix">
+  <el-container>
+    <el-header height="42px" style="background-color: #baf6db">
       <el-row :gutter="22">
         <el-col :span="12">
-          <header-left :title="title"/>
+          <top-bar :title="title"/>
         </el-col>
         <el-col :span="12" style="text-align: right">
           <el-input
             size="mini"
-            style="width: 200px; float: right"
+            style="width: 200px"
             v-model="filterText"
             @input="filterModuleName"
             prefix-icon="el-icon-search"
             placeholder="支持输入模块名称过滤～"/>
         </el-col>
       </el-row>
-    </div>
-    <el-table
+    </el-header>
+    <el-main>
+      <el-table
       v-loading="loading"
       :data="filtered">
       <el-table-column
@@ -71,16 +72,17 @@
         </template>
       </el-table-column>
     </el-table>
-  </el-card>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
 import {comparePublish} from "@/api/publish"
-import HeaderLeft from "./HeaderLeft";
+import topBar from "./topBar";
 
 export default {
   components: {
-    HeaderLeft
+    topBar
   },
   name: "index",
   data() {
@@ -169,13 +171,4 @@ export default {
 </script>
 
 <style scoped>
-.box-card {
-  overflow: auto;
-  max-height: 100vh;
-  padding: 5px;
-}
-
-.box-card::-webkit-scrollbar {
-  display: none;
-}
 </style>

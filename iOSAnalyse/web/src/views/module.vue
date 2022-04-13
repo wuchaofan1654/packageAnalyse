@@ -193,13 +193,4 @@ name: "index",
 </script>
 
 <style scoped>
-.box-card {
-  overflow: auto;
-  max-height: 100vh;
-  padding: 5px;
-}
-
-.box-card::-webkit-scrollbar {
-  display: none;
-}
 </style>

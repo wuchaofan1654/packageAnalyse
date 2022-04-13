@@ -124,7 +124,7 @@ export default {
     getList() {
       this.loading = true
       this.seleted = []
-      listPublish().then(res => {
+      listPublish(this.queryParams).then(res => {
         this.loading = false
         if (res.code === 200) {
           this.publishes = res.data.results

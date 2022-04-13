@@ -31,7 +31,8 @@ export default {
     return {
       menus: [
         {title: '发布列表', icon: 'el-icon-s-home', route: '/v1'},
-        {title: '模块列表', icon: 'el-icon-s-data', route: '/v1/module'}
+        {title: '模块列表', icon: 'el-icon-s-data', route: '/v1/module'},
+        // {title: '退出登录', icon: 'el-icon-user', route: '/v1/login'}
       ]
     }
   },

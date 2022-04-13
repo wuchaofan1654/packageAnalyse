@@ -65,7 +65,10 @@
         :sort-method="sortDiff"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-link :type="getDiffValueType(scope.row.diff_size)" :underline="false">
+          <el-link
+            :type="formatDiffValue(scope.row.diff_size).type"
+            :icon="formatDiffValue(scope.row.diff_size).icon"
+            :underline="false">
             <span>{{ dataFormat(scope.row.diff_size).value }}</span>
             <span>{{ dataFormat(scope.row.diff_size).unit }}</span>
           </el-link>
@@ -140,9 +143,10 @@ export default {
       return formatted
     },
 
-    getDiffValueType(value) {
+    formatDiffValue(value) {
       value = this.dataFormat(value)
-      return value.value < 0 ? 'success' : value.value === 0 ? 'info' : 'danger'
+      return value.value < 0 ? {type: 'success', icon: 'el-icon-arrow-down'}
+      : value.value > 0 ? {type: 'danger', icon: 'el-icon-arrow-up'} : {type: 'info', icon: 'el-icon-minus'}
     },
 
     getVersionValueType(value) {

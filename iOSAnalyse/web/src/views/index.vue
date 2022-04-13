@@ -85,36 +85,12 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentPageChange"
       />
-      <el-dialog
-        title="手动上传发布记录"
-        :visible.sync="publishDialogVisible"
-        width="60%"
-        center>
-        <el-form ref="form" :model="form" label-width="150px">
-          <el-form-item label="App版本">
-            <el-input v-model="form.version"></el-input>
-          </el-form-item>
-          <el-form-item label="jenkins构建编号">
-            <el-input v-model="form.build_no"></el-input>
-          </el-form-item>
-          <el-form-item label="版本分支">
-            <el-input v-model="form.branch"></el-input>
-          </el-form-item>
-          <el-form-item label="包大小json文件">
-            <el-input class="file" name="jsonfile" v-model="form.jsonfile" type="file"/>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-        <el-button @click="publishDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitPublishForm">提 交</el-button>
-      </span>
-      </el-dialog>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import {listPublish, addPublish} from "@/api/publish"
+import {listPublish} from "@/api/publish"
 import topBar from "./topBar";
 
 
@@ -187,18 +163,6 @@ export default {
     },
     addPublish() {
       this.publishDialogVisible = true
-    },
-    submitPublishForm() {
-      this.publishDialogVisible = false
-      addPublish(this.form).then(res => {
-        console.log(this.form)
-        if (res.code === 200) {
-          console.log(res)
-          this.$message.success('发布成功')
-        } else {
-          this.$message.success('添加失败')
-        }
-      })
     },
     handleSizeChange(value) {
       this.queryParams.pageSize = value

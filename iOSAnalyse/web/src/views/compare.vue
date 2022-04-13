@@ -145,8 +145,8 @@ export default {
 
     formatDiffValue(value) {
       value = this.dataFormat(value)
-      return value.value < 0 ? {type: 'success', icon: 'el-icon-arrow-down'}
-      : value.value > 0 ? {type: 'danger', icon: 'el-icon-arrow-up'} : {type: 'info', icon: 'el-icon-minus'}
+      return value.value < 0 ? {type: 'success', icon: 'el-icon-bottom'}
+      : value.value > 0 ? {type: 'danger', icon: 'el-icon-top'} : {type: 'info', icon: 'el-icon-minus'}
     },
 
     getVersionValueType(value) {

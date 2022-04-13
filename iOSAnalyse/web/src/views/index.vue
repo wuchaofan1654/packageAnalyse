@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <el-card class="box-card" body-style="min-height: 85vh">
     <div slot="header" class="clearfix">
       <el-row>
         <el-col :span="12">

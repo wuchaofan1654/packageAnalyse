@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <el-card class="box-card" body-style="min-height: 85vh">
     <div slot="header" class="clearfix">
       <el-row :gutter="22">
         <el-col :span="8">
@@ -16,10 +16,11 @@
             placeholder="支持输入版本号过滤～"/>
         <el-select
           size="mini"
+          style="width: 200px"
           v-model="queryParams.module_name"
           filterable
           clearable
-          placeholder="选择组件后可查看趋势图～"
+          placeholder="选定组件可查看趋势图～"
           @change="getList">
           <el-option
             v-for="item in moduleNameOptions"

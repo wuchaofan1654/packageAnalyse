@@ -3,34 +3,25 @@
 Create by sandy at 20:02 07/04/2022
 Description: ToDo
 """
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from iOSAnalyse.settings import BASE_DIR
-from packageAnalyse.common.response import ErrorResponse
 from packageAnalyse.models import Publish, Module
-import json
-
 from packageAnalyse.serializers import PublishSerializer
+import json
 
 
 def sync_modules_by_publish(publish: Publish):
     try:
-        publish_serialized = PublishSerializer(publish).data
-        json_file_path = BASE_DIR + publish_serialized.get('jsonfile')
+        json_file_path = BASE_DIR + PublishSerializer(publish).data.get('jsonfile')
         modules = json.loads(open(json_file_path).read()).get('module_list')
 
-        simpled_modules = [
-            {"module_name": module.get('module_name'), "module_size": module.get('module_size')}
-            for module in modules
-        ]
-
-        for module in simpled_modules:
-            m = Module.objects.create(**module)
-            m.publish = publish
-            m.save()
-
-        return True
+        [Module.objects.create(
+            module_name=module.get('module_name'),
+            module_size=module.get('module_size'),
+            publish=publish
+        ).save() for module in modules]
 
     except Exception as error:
         return error

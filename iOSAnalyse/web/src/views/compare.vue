@@ -11,6 +11,7 @@
             style="width: 200px; float: right"
             v-model="filterText"
             @input="filterModuleName"
+            prefix-icon="el-icon-search"
             placeholder="支持输入模块名称过滤～"/>
         </el-col>
       </el-row>
@@ -57,7 +58,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="差值(Pk2-Pk1)"
+        label="差值"
         align="center"
         sortable
         :sort-method="sortDiff"

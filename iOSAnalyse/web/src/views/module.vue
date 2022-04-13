@@ -2,14 +2,23 @@
   <el-card class="box-card">
     <div slot="header" class="clearfix">
       <el-row :gutter="22">
-        <el-col :span="12">
+        <el-col :span="8">
         <header-left :title="title" />
       </el-col>
-      <el-col :span="12" style="text-align: right">
+      <el-col :span="16" style="text-align: right">
+        <el-input
+            size="mini"
+            style="width: 200px"
+            v-model="queryParams.version"
+            @input="getList"
+            clearable
+            prefix-icon="el-icon-search"
+            placeholder="支持输入版本号过滤～"/>
         <el-select
           size="mini"
           v-model="queryParams.module_name"
           filterable
+          clearable
           placeholder="请选择任一组件"
           @change="getList">
           <el-option
@@ -110,7 +119,8 @@ name: "index",
     queryParams: {
       pageNum: 1,
       pageSize: 20,
-      module_name: undefined,
+      module_name: '',
+      version: ''
     },
     modules: [],
     dialogVisible: false,

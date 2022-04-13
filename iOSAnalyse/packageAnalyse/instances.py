@@ -8,17 +8,21 @@ from pydantic import BaseModel
 
 
 class SingleCompareResult(BaseModel):
+    """
+    链式调用直接计算差值
+    """
     module_name: Text = ''
     pk1_module_size: int = 0
     pk2_module_size: int = 0
     diff_size: int = 0
 
     def calculate_diff(self):
-        self.diff_size = self.pk2_module_size - self.pk1_module_size
+        self.diff_size = self.pk1_module_size - self.pk2_module_size
         return self
 
 
 class CompareResult(BaseModel):
+    """链式调用将compare结果排序"""
     pk1_publish: Dict = {}
     pk2_publish: Dict = {}
     results: List[SingleCompareResult] = []

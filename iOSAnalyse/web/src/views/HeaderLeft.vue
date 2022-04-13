@@ -6,6 +6,9 @@
         导航菜单
       </el-button>
       <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>
+          <el-button type="text" icon="el-icon-back" @click="goBack">返回上页</el-button>
+        </el-dropdown-item>
         <el-dropdown-item v-for="menu in menus" :key="menu.title">
           <el-link
             :icon="menu.icon"
@@ -17,9 +20,7 @@
       </el-dropdown-menu>
     </el-dropdown>
     <el-divider direction="vertical" />
-    <el-button type="text" @click="goBack">🔙上一页</el-button>
-    <el-divider direction="vertical" />
-    <span>{{ title }}</span>
+    <span style="color: gray; font-size: 14px; font-weight: bold">{{ title }}</span>
   </div>
 </template>
 

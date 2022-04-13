@@ -15,6 +15,7 @@ class Publish(models.Model):
         verbose_name = '发布记录表'
         verbose_name_plural = '发布记录表'
         ordering = ['-id']
+        unique_together = [['version', 'build_no', 'status']]
 
     def __str__(self):
         return f'{self.version}-{self.build_no}【{self.branch}】'
@@ -32,6 +33,7 @@ class Module(models.Model):
         verbose_name = '模块大小表'
         verbose_name_plural = '模块大小表'
         ordering = ['-id']
+        unique_together = [['publish', 'module_name']]
 
     def __str__(self):
         return self.module_name
